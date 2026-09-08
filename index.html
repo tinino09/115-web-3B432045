@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人介紹 - 黃婷鈺</title>
+    <style>
+        /* 全局樣式重置與基礎設定 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 1. 頂部區塊 (Header & Navigation) */
+        header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 新標籤頁/頁籤選單 */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: #3498db;
+            color: #ffffff;
+        }
+
+        /* 2. 主體區塊 (Main Content) */
+        main {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1; /* 使 footer 保持在底部 */
+        }
+
+        /* 左右分欄布局 */
+        .profile-container {
+            display: flex;
+            gap: 2.5rem;
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            align-items: flex-start;
+        }
+
+        /* 左側大頭貼區塊 */
+        .profile-left {
+            flex: 1;
+            max-width: 300px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .avatar-box {
+            width: 100%;
+            padding-top: 100%; /* 保持 1:1 正方形比例 */
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #3498db;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #e0e0e0;
+        }
+
+        .avatar-box img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-tagline {
+            margin-top: 1rem;
+            font-weight: 500;
+            color: #7f8c8d;
+        }
+
+        /* 右側介紹文字區塊 */
+        .profile-right {
+            flex: 2;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .about-text {
+            color: #555;
+            text-align: justify;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-list {
+            list-style-type: none;
+        }
+
+        .achievement-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #444;
+        }
+
+        .achievement-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .badge {
+            background-color: #e8f4fc;
+            color: #2980b9;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+
+        /* 3. 底部區塊 (Footer) */
+        footer {
+            background-color: #1e2b37;
+            color: #bdc3c7;
+            padding: 2rem 1.5rem;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-info, .footer-contact {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-contact a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            width: 100%;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #34495e;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+
+        /* 響應式微調 (手機畫面自動變單欄) */
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-left {
+                max-width: 200px;
+            }
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 頂部區塊 -->
+    <header>
+        <div class="header-container">
+            <h1 class="site-title">陳小明 | 個人簡介頁面</h1>
+            <!-- 新標籤頁 (導覽列) -->
+            <nav>
+                <ul>
+                    <li><a href="#about" class="active">關於我</a></li>
+                    <li><a href="#achievements">在校成就</a></li>
+                    <li><a href="#contact">聯絡方式</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 2. 主體區塊 -->
+    <main>
+        <div class="profile-container">
+            
+            <!-- 左側：大頭貼圖片區塊 -->
+            <div class="profile-left">
+                <div class="avatar-box">
+                    <!-- 請將 src 替換為你的照片網址或本地檔案路徑 -->
+                    <img src="https://via.placeholder.com/300x300?text=Your+Photo" alt="個人大頭貼">
+                </div>
+                <p class="avatar-tagline">資訊工程學系 / 預計 2026 畢業</p>
+            </div>
+
+            <!-- 右側：介紹文字與成就區塊 -->
+            <div class="profile-right">
+                
+                <!-- 個人特質介紹 -->
+                <h2 id="about" class="section-title">關於我與個人特質</h2>
+                <p class="about-text">
+                    嗨！我是陳小明，目前就讀於國立大學資訊工程學系大三。我是一個對技術充滿熱情、具備<strong>強烈好奇心與自主學習能力</strong>的人。在團隊合作中，我習慣扮演溝通協調的角色，並具備優良的<strong>邏輯思考與問題解決能力</strong>。無論是面對未知的程式語言還是複雜的專案需求，我總是能保持耐心，積極尋求突破點。
+                </p>
+
+                <!-- 在校成就與成績 -->
+                <h2 id="achievements" class="section-title">在校成就與成績表現</h2>
+                <ul class="achievement-list">
+                    <li>
+                        <strong>學業成績表現：</strong> 歷年 GPA 3.8/4.3，系排名前 10%<span class="badge">書卷獎 x2</span>
+                    </li>
+                    <li>
+                        <strong>全國大專院校軟體設計競賽：</strong> 榮獲優等獎，負責系統架構設計與前端開發。
+                    </li>
+                    <li>
+                        <strong>畢業專題項目：</strong> 領導 4 人團隊開發「智慧校園 App」，成功上線並提供全校師生使用。
+                    </li>
+                    <li>
+                        <strong>社團與課外活動：</strong> 擔任資訊研究社社長，組織超過 5 場跨校技術工作坊，累積主持與團隊管理經驗。
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 3. 底部區塊 -->
+    <footer>
+        <div class="footer-container" id="contact">
+            <!-- 簡短頁面介紹 -->
+            <div class="footer-info">
+                <h3 class="footer-title">頁面簡介</h3>
+                <p>本網站為個人學術與職涯展示頁面，旨在記錄大學期間的學習歷程、專案成果與個人成長。感謝您的瀏覽！</p>
+            </div>
+
+            <!-- 聯絡方式 -->
+            <div class="footer-contact">
+                <h3 class="footer-title">聯絡方式</h3>
+                <p>📧 Email：<a href="mailto:xiaoming.chen@example.com">xiaoming.chen@example.com</a></p>
+                <p>📱 電話：0912-345-678</p>
+                <p>🔗 GitHub：<a href="https://github.com" target="_blank">github.com/xiaoming-chen</a></p>
+            </div>
+
+            <!-- 版權宣告 -->
+            <div class="copyright">
+                &copy; 2026 陳小明. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
