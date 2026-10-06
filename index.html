@@ -1,323 +1,368 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人介紹 - 黃婷鈺</title>
-    <style>
-        /* 全局樣式重置與基礎設定 */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-        }
-
-        body {
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* 1. 頂部區塊 (Header & Navigation) */
-        header {
-            background-color: #2c3e50;
-            color: #ffffff;
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .header-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .site-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        /* 新標籤頁/頁籤選單 */
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 15px;
-        }
-
-        nav a {
-            color: #ecf0f1;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-
-        nav a:hover, nav a.active {
-            background-color: #3498db;
-            color: #ffffff;
-        }
-
-        /* 2. 主體區塊 (Main Content) */
-        main {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
-            flex: 1; /* 使 footer 保持在底部 */
-        }
-
-        /* 左右分欄布局 */
-        .profile-container {
-            display: flex;
-            gap: 2.5rem;
-            background-color: #ffffff;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            align-items: flex-start;
-        }
-
-        /* 左側大頭貼區塊 */
-        .profile-left {
-            flex: 1;
-            max-width: 300px;
-            text-align: center;
-            width: 100%;
-        }
-
-        .avatar-box {
-            width: 100%;
-            padding-top: 100%; /* 保持 1:1 正方形比例 */
-            position: relative;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid #3498db;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            background-color: #e0e0e0;
-        }
-
-        .avatar-box img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .avatar-tagline {
-            margin-top: 1rem;
-            font-weight: 500;
-            color: #7f8c8d;
-        }
-
-        /* 右側介紹文字區塊 */
-        .profile-right {
-            flex: 2;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .section-title:first-child {
-            margin-top: 0;
-        }
-
-        .about-text {
-            color: #555;
-            text-align: justify;
-            margin-bottom: 1rem;
-        }
-
-        .achievement-list {
-            list-style-type: none;
-        }
-
-        .achievement-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.8rem;
-            color: #444;
-        }
-
-        .achievement-list li::before {
-            content: "✦";
-            position: absolute;
-            left: 0;
-            color: #3498db;
-            font-weight: bold;
-        }
-
-        .badge {
-            background-color: #e8f4fc;
-            color: #2980b9;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-left: 0.5rem;
-        }
-
-        /* 3. 底部區塊 (Footer) */
-        footer {
-            background-color: #1e2b37;
-            color: #bdc3c7;
-            padding: 2rem 1.5rem;
-            margin-top: auto;
-        }
-
-        .footer-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .footer-info, .footer-contact {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .footer-title {
-            color: #ffffff;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-contact a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        .footer-contact a:hover {
-            text-decoration: underline;
-        }
-
-        .copyright {
-            text-align: center;
-            width: 100%;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #34495e;
-            font-size: 0.85rem;
-            color: #7f8c8d;
-        }
-
-        /* 響應式微調 (手機畫面自動變單欄) */
-        @media (max-width: 768px) {
-            .profile-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .profile-left {
-                max-width: 200px;
-            }
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>木屐館｜走進木屐的時光裡</title>
+<style>
+:root{--bg:#f4ebdb;--card:#fffaf0;--ink:#3b2a1a;--sub:#7a6450;--accent:#8a4b1f;--line:#e0cfb0;--wood:#c08a52;--err:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1f1812;--card:#2a2119;--ink:#f1e6d4;--sub:#b9a58c;--accent:#e0a265;--line:#44372a;--wood:#b27a45;--err:#ff7b6b}}
+:root[data-theme="dark"]{--bg:#1f1812;--card:#2a2119;--ink:#f1e6d4;--sub:#b9a58c;--accent:#e0a265;--line:#44372a;--wood:#b27a45;--err:#ff7b6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;line-height:1.8}
+a{color:var(--accent)}
+body>header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 20px 0;text-align:center}
+body>header h1{margin:0;font-size:1.7rem;letter-spacing:.2em;color:var(--accent)}
+body>header p{margin:0 0 10px;color:var(--sub);font-size:.9rem}
+nav{display:flex;justify-content:center;gap:4px;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--sub);padding:8px 14px;border-bottom:3px solid transparent}
+nav a.on{color:var(--accent);border-color:var(--accent);font-weight:700}
+main{max-width:1000px;margin:24px auto;padding:0 20px}
+.page{display:none}.page.on{display:block}
+h2{color:var(--accent);margin:32px 0 12px;font-size:1.5rem}
+.page>h2:first-child{margin-top:0}
+.hero{background:linear-gradient(135deg,#5c3a1e,#b8844c);color:#fff6e4;border-radius:16px;padding:40px 24px;display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap}
+.hero svg{width:240px;height:240px;background:#f1dcb8;border-radius:50%;border:5px solid #e8c48a}
+.hero h2{color:#fff6e4;font-size:2rem;margin:0}
+.btn{display:inline-block;font:inherit;border:0;border-radius:10px;padding:10px 24px;margin:6px 8px 0 0;cursor:pointer;text-decoration:none;background:var(--accent);color:var(--card);font-weight:700}
+.btn.alt{background:transparent;color:inherit;border:2px solid currentColor}
+.hero .btn{background:#f1c27d;color:#3b2a1a}.hero .btn.alt{background:transparent;color:#fff6e4}
+.row{display:flex;gap:16px;align-items:flex-start}
+.row>*{flex:1 1 0;min-width:0}
+.cards{display:flex;gap:16px;flex-wrap:wrap}
+.card{flex:1 1 240px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{margin:0 0 6px;color:var(--accent)}
+.card p{margin:0 0 10px}
+figure{margin:0;text-align:center}
+figure svg{width:100%;max-height:230px;border-radius:12px;background:#ecd3a8;border:1px solid var(--line)}
+figcaption{font-size:.85rem;color:var(--sub)}
+.flip{font:inherit;text-align:left;cursor:pointer;color:var(--ink)}
+.flip small{color:var(--sub)}
+.tl{display:flex;gap:8px;list-style:none;padding:0;margin:0 0 16px}
+.tl li{flex:1}
+.tl button{width:100%;font:inherit;cursor:pointer;background:var(--card);color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--wood);border-radius:10px;padding:10px 6px}
+.tl button[aria-pressed="true"]{background:var(--wood);color:#fff}
+.tl b{display:block}
+.zone rect{fill:var(--card);stroke:var(--wood);stroke-width:2;cursor:pointer}
+.zone text{fill:var(--ink);font-size:14px;text-anchor:middle;pointer-events:none}
+.zone.on rect,.zone:hover rect{fill:var(--wood)}.zone.on text,.zone:hover text{fill:#fff}
+.zone:focus{outline:none}.zone:focus rect{stroke:var(--accent);stroke-width:4}
+#mapsvg{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px}
+dl{margin:0}dt{font-weight:700;color:var(--accent)}dd{margin:0 0 10px}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);max-width:460px;width:90%}
+dialog::backdrop{background:#0008}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:4px;border:0;padding:0;margin:0;min-width:0}
+.field.full{grid-column:1/-1}
+.field label,.field legend{font-weight:700;font-size:.95rem;padding:0}
+.req,.err{color:var(--err)}.err{font-size:.85rem;margin:0}
+.field input:not([type=radio]),.field select,.field textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;width:100%}
+.field input[aria-invalid="true"]{border-color:var(--err)}
+.radios{display:flex;gap:16px;padding-top:6px}
+.group{border:0;padding:0;margin:0 0 20px}.group>legend{font-weight:700;color:var(--accent);margin-bottom:10px;padding:0}
+.btn:disabled{background:#6e6e6e;color:#fff;cursor:not-allowed}
+.btn.reset{background:transparent;color:var(--sub);border:1px solid var(--line)}
+#ok{padding:12px 16px;border:1px solid var(--accent);border-radius:10px;color:var(--accent)}
+footer{border-top:1px solid var(--line);background:var(--card);padding:24px 20px;text-align:center;color:var(--sub);font-size:.92rem}
+footer p{margin:4px 0}
+@media (max-width:768px){.row,.tl{flex-direction:column}.fgrid{grid-template-columns:1fr}.hero{padding:28px 16px}.hero svg{width:180px;height:180px}}
+.thero{min-height:78vh;background:linear-gradient(160deg,#4a2e17,#b8844c);color:#fff6e4;display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap;padding:48px 20px;text-align:left}
+.thero svg{width:260px;height:260px;border-radius:50%;background:#f1dcb8;border:6px solid #e8c48a}
+.thero h1{font-size:2.6rem;margin:0;letter-spacing:.1em}
+.thero p{max-width:30em}
+.thero .btn{background:#f1c27d;color:#3b2a1a}
+section.blk{padding:48px 0}
+.mode{font:inherit;color:var(--ink);text-align:left;cursor:pointer}
+.mode[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent)}
+#floor{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.z rect{fill:var(--bg);stroke:var(--wood);stroke-width:2;cursor:pointer}
+.z text{fill:var(--ink);font-size:14px;text-anchor:middle;pointer-events:none}
+.z:hover rect,.z.on rect{fill:var(--wood)}.z:hover text,.z.on text{fill:#fff}
+.z.dis{opacity:.35}.z.dis rect{cursor:not-allowed}
+.z:focus{outline:none}.z:focus rect{stroke:var(--accent);stroke-width:4}
+#bar{display:none;justify-content:space-between;align-items:center;gap:16px;margin-top:16px}
+#bar.on{display:flex}
+.zsec{padding:48px 0;border-top:1px solid var(--line)}
+.zsec[hidden]{display:none}
+.zhead{height:140px;border-radius:14px;margin-bottom:20px;background:linear-gradient(120deg,#6b4423,#c08a52);color:#fff6e4;display:flex;align-items:flex-end;padding:16px 20px}
+.zhead h2{color:#fff6e4;margin:0}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.steps button{flex:1 1 100px;font:inherit;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);border-top:4px solid var(--wood);border-radius:10px;padding:8px}
+.steps button[aria-pressed="true"]{background:var(--wood);color:#fff}
+.grid{display:flex;gap:16px;flex-wrap:wrap}
+.grid>button{flex:1 1 140px;font:inherit;cursor:pointer;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.grid svg{width:100%;height:110px;background:#ecd3a8;border-radius:8px}
+.ending{background:radial-gradient(circle at 50% 30%,#8a5a2e,#2b1a0d 70%);color:#fbeed3;text-align:center;padding:96px 20px}
+.ending h2{color:#fbeed3;font-size:2rem;letter-spacing:.2em}
+.ending p{max-width:28em;margin:0 auto 28px}
+.ending .btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.ending .btn{background:#f1c27d;color:#3b2a1a}.ending .btn.alt{background:transparent;color:#fbeed3}
+#tour .row{align-items:center}
+#tour .ending{border-radius:16px;margin-top:32px}
+html{scroll-behavior:smooth}
+@media (max-width:768px){.thero{text-align:center}.thero h1{font-size:2rem}.thero svg{width:190px;height:190px}#bar{flex-direction:column}}
+</style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="clog" viewBox="0 0 200 200"><ellipse cx="100" cy="152" rx="72" ry="9" fill="#0002"/><rect x="40" y="112" width="120" height="22" rx="10" fill="#a8693a"/><rect x="40" y="112" width="120" height="8" rx="4" fill="#d09a62"/><rect x="58" y="134" width="16" height="16" rx="2" fill="#7a3f17"/><rect x="126" y="134" width="16" height="16" rx="2" fill="#7a3f17"/><path d="M100 112V84M100 86Q68 90 64 112M100 86Q132 90 136 112" stroke="#b83a2a" stroke-width="6" fill="none" stroke-linecap="round"/></symbol></svg>
 
-    <!-- 1. 頂部區塊 -->
-    <header>
-        <div class="header-container">
-            <h1 class="site-title">陳小明 | 個人簡介頁面</h1>
-            <!-- 新標籤頁 (導覽列) -->
-            <nav>
-                <ul>
-                    <li><a href="#about" class="active">關於我</a></li>
-                    <li><a href="#achievements">在校成就</a></li>
-                    <li><a href="#contact">聯絡方式</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<header>
+  <h1>木屐館</h1>
+  <p>走進木屐的時光裡</p>
+  <nav aria-label="主選單">
+    <a href="#home">首頁</a><a href="#history">館史介紹</a><a href="#tour">木屐導覽</a><a href="#shop">購買資訊</a><a href="#visit">參觀資訊</a><a href="#events">活動體驗</a><a href="#contact">聯絡我</a>
+  </nav>
+</header>
 
-    <!-- 2. 主體區塊 -->
-    <main>
-        <div class="profile-container">
-            
-            <!-- 左側：大頭貼圖片區塊 -->
-            <div class="profile-left">
-                <div class="avatar-box">
-                    <!-- 請將 src 替換為你的照片網址或本地檔案路徑 -->
-                    <img src="https://via.placeholder.com/300x300?text=Your+Photo" alt="個人大頭貼">
-                </div>
-                <p class="avatar-tagline">資訊工程學系 / 預計 2026 畢業</p>
-            </div>
+<main>
+<!-- 首頁 -->
+<div class="page" id="home">
+  <section class="hero" aria-label="首頁主視覺">
+    <svg viewBox="0 0 200 200" role="img" aria-label="懷舊風格木屐"><use href="#clog"/></svg>
+    <div><h2>走進木屐的時光裡</h2><p>一雙木屐，一段記憶。第一次認識木屐，從這裡開始。</p>
+      <a class="btn" href="#tour">開始探索</a><a class="btn alt" href="#visit">參觀資訊</a></div>
+  </section>
 
-            <!-- 右側：介紹文字與成就區塊 -->
-            <div class="profile-right">
-                
-                <!-- 個人特質介紹 -->
-                <h2 id="about" class="section-title">關於我與個人特質</h2>
-                <p class="about-text">
-                    嗨！我是陳小明，目前就讀於國立大學資訊工程學系大三。我是一個對技術充滿熱情、具備<strong>強烈好奇心與自主學習能力</strong>的人。在團隊合作中，我習慣扮演溝通協調的角色，並具備優良的<strong>邏輯思考與問題解決能力</strong>。無論是面對未知的程式語言還是複雜的專案需求，我總是能保持耐心，積極尋求突破點。
-                </p>
+  <h2>木屐館簡介</h2>
+  <section class="row">
+    <p>木屐館收藏各式傳統與現代木屐，並保存製作工具與老照片。我們希望讓第一次接觸木屐的朋友，也能輕鬆理解木屐的歷史、文化與工藝之美，並親手體驗穿著與製作。</p>
+    <figure><svg viewBox="0 0 200 200" role="img" aria-label="館內照片示意"><use href="#clog"/></svg><figcaption>館內照片（示意）</figcaption></figure>
+  </section>
 
-                <!-- 在校成就與成績 -->
-                <h2 id="achievements" class="section-title">在校成就與成績表現</h2>
-                <ul class="achievement-list">
-                    <li>
-                        <strong>學業成績表現：</strong> 歷年 GPA 3.8/4.3，系排名前 10%<span class="badge">書卷獎 x2</span>
-                    </li>
-                    <li>
-                        <strong>全國大專院校軟體設計競賽：</strong> 榮獲優等獎，負責系統架構設計與前端開發。
-                    </li>
-                    <li>
-                        <strong>畢業專題項目：</strong> 領導 4 人團隊開發「智慧校園 App」，成功上線並提供全校師生使用。
-                    </li>
-                    <li>
-                        <strong>社團與課外活動：</strong> 擔任資訊研究社社長，組織超過 5 場跨校技術工作坊，累積主持與團隊管理經驗。
-                    </li>
-                </ul>
+  <h2>今日熱門</h2>
+  <div class="cards">
+    <article class="card"><h3>認識木屐</h3><p>歷史與種類</p><a class="btn" href="#history">了解更多</a></article>
+    <article class="card"><h3>館內導覽</h3><p>探索木屐館特色展區</p><a class="btn" href="#tour">開始導覽</a></article>
+    <article class="card"><h3>體驗木屐</h3><p>了解木屐製作與穿著方式</p><a class="btn" href="#events">查看體驗</a></article>
+  </div>
 
-            </div>
+  <h2>木屐小知識</h2>
+  <div class="cards" id="quiz"></div>
 
-        </div>
-    </main>
+  <h2>參觀資訊</h2>
+  <section class="card">
+    <dl><dt>地址</dt><dd>台灣某市某路 123 號（範例）</dd><dt>開放時間</dt><dd>週二至週日 09:00–17:00，週一休館</dd><dt>門票</dt><dd>全票 NT$100、學生票 NT$60</dd><dt>交通方式</dt><dd>捷運／公車／自駕皆可抵達，詳見參觀資訊頁</dd></dl>
+    <a class="btn" href="#visit">查看完整參觀資訊 →</a>
+  </section>
+</div>
 
-    <!-- 3. 底部區塊 -->
-    <footer>
-        <div class="footer-container" id="contact">
-            <!-- 簡短頁面介紹 -->
-            <div class="footer-info">
-                <h3 class="footer-title">頁面簡介</h3>
-                <p>本網站為個人學術與職涯展示頁面，旨在記錄大學期間的學習歷程、專案成果與個人成長。感謝您的瀏覽！</p>
-            </div>
+<!-- 館史 -->
+<div class="page" id="history">
+  <h2>館史介紹</h2>
+  <p>點選下方時期，查看詳細介紹與歷史照片。</p>
+  <ol class="tl" id="tl"></ol>
+  <article class="card row" id="tldetail" aria-live="polite"></article>
+</div>
 
-            <!-- 聯絡方式 -->
-            <div class="footer-contact">
-                <h3 class="footer-title">聯絡方式</h3>
-                <p>📧 Email：<a href="mailto:xiaoming.chen@example.com">xiaoming.chen@example.com</a></p>
-                <p>📱 電話：0912-345-678</p>
-                <p>🔗 GitHub：<a href="https://github.com" target="_blank">github.com/xiaoming-chen</a></p>
-            </div>
+<!-- 導覽 -->
+<div class="page" id="tour">
+  <!-- 0 Hero：圖片請替換為 images/hero.jpg -->
+  <section class="thero" aria-label="導覽開場">
+    <svg viewBox="0 0 200 200" role="img" aria-label="木屐"><use href="#clog"/></svg>
+    <div><h1>木屐導覽</h1><p>走進木屐的時光裡。跟著館內地圖，從起源到工藝，一步步認識木屐。</p><button class="btn" id="startTour">開始導覽 ↓</button></div>
+  </section>
 
-            <!-- 版權宣告 -->
-            <div class="copyright">
-                &copy; 2026 陳小明. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
+  <!-- 1 導覽方式 -->
+  <section class="blk" id="modes" aria-labelledby="t-modes">
+    <h2 id="t-modes">選擇導覽方式</h2>
+    <div class="cards">
+      <button class="card mode" data-m="free" aria-pressed="true"><h3>自由探索</h3>展區任意點，想看哪裡就看哪裡。</button>
+      <button class="card mode" data-m="full" aria-pressed="false"><h3>完整導覽</h3>依 1→5 順序走完全部展區。</button>
+      <button class="card mode" data-m="quick" aria-pressed="false"><h3>快速導覽</h3>只看精選：製作工藝、展示區、體驗區。</button>
+    </div>
+  </section>
 
+  <!-- 2 地圖 -->
+  <section id="map" aria-labelledby="t-map">
+    <h2 id="t-map">館內平面圖</h2>
+    <p>點擊展區進入介紹。</p>
+    <svg id="floor" viewBox="0 0 480 270" role="group" aria-label="館內平面圖"></svg>
+    <div id="bar" class="card" aria-live="polite"><span id="prog"></span><span><button class="btn alt" id="prev">上一站</button> <button class="btn" id="next">下一站</button></span></div>
+  </section>
+
+  <div>
+    <!-- 3 起源 -->
+    <section class="zsec" id="z0" aria-labelledby="t0">
+      <div class="zhead"><h2 id="t0">1. 木屐的起源</h2></div>
+      <div class="row">
+        <figure><svg viewBox="0 0 200 200" role="img" aria-label="歷史圖片示意"><use href="#clog"/></svg><figcaption>歷史圖片（示意）</figcaption></figure>
+        <div><p>木屐最初是以整塊木頭削成的簡易鞋底，用來隔離泥濘與濕氣，是先民因應氣候與環境的生活智慧。</p><p>隨著工藝進步，鞋齒、鼻緒與造型逐漸成形，木屐也從實用工具發展為地方文化的一部分。</p></div>
+      </div>
+    </section>
+    <!-- 4 生活 -->
+    <section class="zsec" id="z1" aria-labelledby="t1">
+      <div class="zhead"><h2 id="t1">2. 木屐與生活</h2></div>
+      <div class="cards">
+        <article class="card"><h3>日常穿著</h3><p>居家、散步與出門都能穿，清脆的足音是許多人的生活記憶。</p></article>
+        <article class="card"><h3>雨天與泥地</h3><p>鞋齒讓腳底離開地面，避開積水與泥濘，保持乾爽。</p></article>
+        <article class="card"><h3>工作使用</h3><p>在潮濕或髒污的工作環境中，木屐耐用又好清洗。</p></article>
+      </div>
+    </section>
+    <!-- 5 工藝 -->
+    <section class="zsec" id="z2" aria-labelledby="t2">
+      <div class="zhead"><h2 id="t2">3. 木屐製作工藝</h2></div>
+      <p>點選步驟，了解一雙木屐如何誕生。</p>
+      <div class="steps" id="steps"></div>
+      <article class="card row" id="stepdetail" aria-live="polite"></article>
+    </section>
+    <!-- 6 展示 -->
+    <section class="zsec" id="z3" aria-labelledby="t3">
+      <div class="zhead"><h2 id="t3">4. 木屐展示區</h2></div>
+      <p>點擊圖片查看詳細資訊。</p>
+      <div class="grid" id="exh"></div>
+    </section>
+    <!-- 7 體驗 -->
+    <section class="zsec" id="z4" aria-labelledby="t4">
+      <div class="zhead"><h2 id="t4">5. 木屐體驗區</h2></div>
+      <div class="steps" id="exps"></div>
+      <article class="card" id="expdetail" aria-live="polite"></article>
+    </section>
+  </div>
+
+  <!-- 8 Ending -->
+  <section class="ending" id="end" aria-labelledby="t-end">
+    <h2 id="t-end">喀啦、喀啦</h2>
+    <p>一雙木屐，走過時光。謝謝你走進木屐館，願這段足音，成為你的一份記憶。</p>
+    <div class="btns"><button class="btn alt" id="restart">重新開始導覽</button><a class="btn" href="#history">探索木屐文化</a><a class="btn alt" href="#visit">查看參觀資訊</a></div>
+  </section>
+</div>
+
+<!-- 購買 -->
+<div class="page" id="shop">
+  <h2>購買資訊</h2>
+  <div class="cards" id="products"></div>
+  <h2>購買方式</h2>
+  <div class="cards">
+    <article class="card"><h3>1. 館內購買</h3><p>於開放時間內至館內商品區選購。</p></article>
+    <article class="card"><h3>2. 線上詢問</h3><p>透過「聯絡我」表單詢問商品與庫存。</p></article>
+    <article class="card"><h3>3. 商品預留</h3><p>先預留商品，於指定日期內到館取貨。</p></article>
+  </div>
+</div>
+
+<!-- 參觀 -->
+<div class="page" id="visit">
+  <h2>參觀資訊</h2>
+  <section class="row">
+    <dl><dt>1. 地址</dt><dd>台灣某市某路 123 號（範例）</dd><dt>2. 開放時間</dt><dd>週二至週日 09:00–17:00<br>週一及國定假日休館</dd><dt>3. 入館費用</dt><dd>全票 NT$100／學生票 NT$60／6 歲以下免費</dd><dt>4. 交通方式</dt><dd>大眾運輸：搭乘公車至「木屐館」站，步行約 3 分鐘。<br>自行開車：館旁設有停車場。</dd></dl>
+    <div><h3>5. 地圖</h3><svg viewBox="0 0 300 200" role="img" aria-label="交通位置示意圖" style="width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px"><path d="M0 120H300M150 0V200" stroke="var(--line)" stroke-width="14"/><rect x="165" y="60" width="50" height="40" fill="var(--wood)"/><text x="190" y="85" fill="#fff" font-size="12" text-anchor="middle">木屐館</text><circle cx="150" cy="120" r="7" fill="var(--accent)"/></svg><p style="font-size:.85rem;color:var(--sub)">地圖為示意，請替換為實際地圖。</p></div>
+  </section>
+</div>
+
+<!-- 活動 -->
+<div class="page" id="events">
+  <h2>活動體驗</h2>
+  <div class="cards">
+    <article class="card"><h3>本月活動：木屐彩繪工作坊</h3><p>為木屐彩繪專屬圖案，親子皆可參加。</p><button class="btn" data-ev="0">了解活動</button></article>
+    <article class="card"><h3>木屐 DIY 體驗</h3><p>親手完成一雙迷你木屐。</p><button class="btn" data-ev="1">了解活動</button></article>
+  </div>
+  <h2>傳統木屐製作示範時間</h2>
+  <table><thead><tr><th>日期</th><th>時間</th><th>地點</th></tr></thead><tbody><tr><td>每週六</td><td>11:00、14:00</td><td>木屐製作工藝區</td></tr><tr><td>每週日</td><td>10:30、15:00</td><td>木屐製作工藝區</td></tr></tbody></table>
+</div>
+
+<!-- 聯絡 -->
+<div class="page" id="contact">
+  <h2 id="contact-title">聯絡我</h2>
+  <p>歡迎詢問或預約，標示 <span class="req">*</span> 為必填。</p>
+  <form id="contactForm" action="#" method="post" class="card">
+    <fieldset class="group"><legend>基本資料</legend>
+      <div class="fgrid">
+        <div class="field"><label for="name">姓名 <span class="req">*</span></label><input type="text" id="name" name="name" autocomplete="name" required></div>
+        <fieldset class="field"><legend>性別 <span class="req">*</span></legend><div class="radios">
+          <span><input type="radio" id="g-m" name="gender" value="男" required> <label for="g-m">男</label></span>
+          <span><input type="radio" id="g-f" name="gender" value="女"> <label for="g-f">女</label></span>
+          <span><input type="radio" id="g-o" name="gender" value="其他"> <label for="g-o">其他</label></span></div></fieldset>
+        <div class="field"><label for="email">電子郵件 <span class="req">*</span></label><input type="email" id="email" name="email" autocomplete="email" aria-describedby="email-err" required><p class="err" id="email-err" aria-live="polite" hidden>電子郵件格式不正確，請輸入例如 name@example.com</p></div>
+        <div class="field"><label for="phone">聯絡電話 <span class="req">*</span></label><input type="tel" id="phone" name="phone" autocomplete="tel" pattern="[0-9+\-\s()]{8,15}" placeholder="例如：0912-345-678" required></div>
+      </div></fieldset>
+    <fieldset class="group"><legend>聯絡內容</legend>
+      <div class="fgrid">
+        <div class="field"><label for="topic">聯絡事項</label><select id="topic" name="topic"><option>一般詢問</option><option>DIY 體驗預約</option><option>團體導覽預約</option><option>商品詢問／預留</option><option>其他</option></select></div>
+        <fieldset class="field"><legend>偏好聯絡方式</legend><div class="radios">
+          <span><input type="radio" id="m-e" name="method" value="電子郵件" checked> <label for="m-e">電子郵件</label></span>
+          <span><input type="radio" id="m-p" name="method" value="電話"> <label for="m-p">電話</label></span></div></fieldset>
+        <div class="field full"><label for="message">留言內容</label><textarea id="message" name="message" rows="4"></textarea></div>
+      </div></fieldset>
+    <button type="submit" class="btn" id="submitBtn">送出</button><button type="reset" class="btn reset">重新填寫</button>
+    <p id="ok" role="status" hidden></p>
+  </form>
+</div>
+</main>
+
+<dialog id="dlg"><div id="dlgbody"></div><form method="dialog"><button class="btn">關閉</button></form></dialog>
+
+<footer>
+  <p>木屐館｜走進木屐的時光裡</p>
+  <p>電話：(04) 1234-5678　｜　電子郵件：info@mukiguan.example</p>
+  <p>地址：台灣某市某路 123 號　｜　週二至週日 09:00–17:00</p>
+</footer>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var TL=[['早期','木屐起源','木屐最初是以整塊木頭削成的簡易鞋底，用來隔離泥濘與濕氣，是先民因應氣候與環境的生活智慧。'],['日常生活','進入日常生活','木屐逐漸成為雨天與居家的常見鞋履，行走時的清脆聲響，成為許多人共同的生活記憶。'],['產業發展','產業發展','木屐需求增加，各地出現專門的木屐工坊與師傅，款式、木材與彩繪也越來越多元。'],['逐漸式微','逐漸式微','塑膠鞋與拖鞋普及後，木屐日常使用減少，許多工坊轉型或停業，製作技藝面臨失傳。'],['今日','文化保存與傳承','木屐館收藏器物、紀錄技藝並舉辦體驗活動，讓新一代也能認識並傳承木屐文化。']];
+$('tl').innerHTML=TL.map(function(t,i){return '<li><button data-i="'+i+'" aria-pressed="'+(i==0)+'"><b>'+t[0]+'</b>'+t[1]+'</button></li>'}).join('');
+function showTL(i){var t=TL[i];$('tldetail').innerHTML='<figure><svg viewBox="0 0 200 200" role="img" aria-label="歷史照片示意"><use href="#clog"/></svg><figcaption>歷史照片（示意）</figcaption></figure><div><h3>'+t[0]+'｜'+t[1]+'</h3><p>'+t[2]+'</p></div>';document.querySelectorAll('#tl button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.i==i)})}
+$('tl').onclick=function(e){var b=e.target.closest('button');if(b)showTL(b.dataset.i)};showTL(0);
+
+var P=[['傳統木屐',680,'22–28 cm','桐木','原木色'],['日式木屐',880,'22–27 cm','桐木','黑色、原木色'],['淑女木屐',780,'22–25 cm','樟木','紅、粉、花色'],['男子漢木屐',820,'26–29 cm','樟木','深棕、黑'],['現代木屐',950,'22–28 cm','桐木＋皮革','灰、藏青'],['迷你木屐吊飾',150,'約 6 cm','檜木','原木色']];
+$('products').innerHTML=P.map(function(p,i){return '<article class="card"><figure><svg viewBox="0 0 200 200" role="img" aria-label="'+p[0]+'"><use href="#clog"/></svg></figure><h3>'+p[0]+'</h3><p>NT$ '+p[1]+'</p><button class="btn" data-p="'+i+'">查看商品</button></article>'}).join('');
+var EV=[['木屐彩繪工作坊','<p>本月活動：為木屐彩繪專屬圖案，適合親子。</p><p>時間：本月每週六 14:00（範例）</p>'],['木屐 DIY 體驗','<p>親手完成一雙迷你木屐。費用 NT$350 起，約 90 分鐘，需事先預約。</p>']];
+function dlg(h){$('dlgbody').innerHTML=h;$('dlg').showModal()}
+document.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.p){var p=P[b.dataset.p];dlg('<figure><svg viewBox="0 0 200 200" role="img" aria-label="'+p[0]+'"><use href="#clog"/></svg><figcaption>商品照片（示意）</figcaption></figure><h3>'+p[0]+'</h3><dl><dt>價格</dt><dd>NT$ '+p[1]+'</dd><dt>尺寸</dt><dd>'+p[2]+'</dd><dt>材質</dt><dd>'+p[3]+'</dd><dt>顏色</dt><dd>'+p[4]+'</dd></dl>')}
+ if(b.dataset.ev){var v=EV[b.dataset.ev];dlg('<h3>'+v[0]+'</h3>'+v[1]+'<a class="btn" href="#contact" onclick="$(\'dlg\').close()">我要預約</a>')}});
+
+var Q=[['木屐為什麼有「齒」？','齒讓鞋底離開地面，避開積水與泥濘，也讓行走更有節奏。'],['木屐常用什麼木頭？','桐木輕盈、樟木耐用，都是常見的選擇。'],['穿木屐有什麼訣竅？','腳趾輕夾鼻緒、步伐放小，重心放穩就不容易跌倒。']];
+$('quiz').innerHTML=Q.map(function(q){return '<button class="card flip" aria-pressed="false"><b>'+q[0]+'</b><br><small>點擊翻看答案</small><span hidden><br>'+q[1]+'</span></button>'}).join('');
+$('quiz').onclick=function(e){var b=e.target.closest('.flip');if(!b)return;var on=b.getAttribute('aria-pressed')!='true';b.setAttribute('aria-pressed',on);b.querySelector('span').hidden=!on;b.querySelector('small').hidden=on};
+
+function go(){var h=(location.hash.slice(1)||'home');if(!$(h)||!$(h).classList.contains('page'))h='home';
+ document.querySelectorAll('.page').forEach(function(p){p.classList.toggle('on',p.id==h)});
+ document.querySelectorAll('nav a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')=='#'+h)});window.scrollTo(0,0)}
+window.addEventListener('hashchange',go);go();
+
+var f=$('contactForm'),ok=$('ok'),btn=$('submitBtn'),em=$('email'),err=$('email-err'),re=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+em.addEventListener('input',function(){var v=em.value.trim(),bad=v!==''&&!re.test(v);err.hidden=!bad;em.setAttribute('aria-invalid',bad);em.setCustomValidity(bad?err.textContent:'')});
+f.addEventListener('submit',function(e){e.preventDefault();if(btn.disabled)return;btn.disabled=true;btn.textContent='已送出';ok.textContent='謝謝 '+f.elements['name'].value+'，我們已收到您的訊息，將盡快與您聯繫。';ok.hidden=false});
+f.addEventListener('reset',function(){ok.hidden=true;btn.disabled=false;btn.textContent='送出';err.hidden=true;em.removeAttribute('aria-invalid');em.setCustomValidity('')});
+/* ===== 資料（可直接修改文案；圖片請改為 <img src="images/..."> ） ===== */
+var ZONES=['木屐的起源','木屐與生活','木屐製作工藝','木屐展示區','木屐體驗區'];
+var STEPS=[['選材','挑選合適木材','挑選紋理平順、乾燥穩定的木材，作為木屐的底板。'],['裁切','裁出木屐雛形','依腳型尺寸將木材裁成鞋底與鞋齒的基本形狀。'],['修形','修整木屐形狀','將木材修整成適合腳型的形狀，並處理鞋面的細節。'],['打磨','打磨至光滑','以砂紙逐步打磨，讓表面平滑、穿著時不扎腳。'],['裝飾','上漆與彩繪','上漆、燒烙或彩繪，為木屐增添色澤與圖案。'],['組裝','穿帶與完成','裝上鼻緒並檢查平衡，完成一雙木屐。']];
+var EXH=[['傳統木屐','最經典的形制，二齒平底，桐木製作，保留原木紋理。'],['日式木屐','造型方正，鼻緒細緻，常見於和服搭配。'],['淑女木屐','鞋型纖細、色彩柔和，常有花色彩繪。'],['男子漢木屐','底板寬厚、鞋齒穩重，多為深色木料。'],['現代木屐','結合皮革與軟墊，穿著更舒適。'],['時尚木屐','融入潮流設計與配色，是木屐的新演繹。']];
+var EXP=[['木屐彩繪','週六、日 10:00／14:00（約 60 分鐘）','6 歲以上','NT$300'],['木屐試穿','開放時間內隨時（約 15 分鐘）','全年齡（幼童需陪同）','免費'],['木屐 DIY','週六、日 10:00／14:00（約 90 分鐘）','12 歲以上（兒童需家長陪同）','NT$350']];
+/* ===== 邏輯 ===== */
+var $=function(i){return document.getElementById(i)};
+var PH='<figure><svg viewBox="0 0 200 200" role="img" aria-label="圖片示意"><use href="#clog"/></svg><figcaption>圖片（示意）</figcaption></figure>';
+var ROUTE={free:[0,1,2,3,4],full:[0,1,2,3,4],quick:[2,3,4]},mode='free',cur=0;
+var TR=[[15,15,140,110],[165,15,150,110],[325,15,140,110],[15,140,200,110],[225,140,240,110]];
+$('floor').innerHTML=ZONES.map(function(n,i){var r=TR[i];return '<g class="z" tabindex="0" role="button" data-z="'+i+'" aria-label="'+n+'"><rect x="'+r[0]+'" y="'+r[1]+'" width="'+r[2]+'" height="'+r[3]+'" rx="10"/><text x="'+(r[0]+r[2]/2)+'" y="'+(r[1]+r[3]/2+5)+'">'+(i+1)+'. '+n+'</text></g>'}).join('')+'<text x="240" y="266" font-size="11" text-anchor="middle" fill="var(--sub)">▲ 入口</text>';
+function render(){var rt=ROUTE[mode],g=mode!='free';
+ document.querySelectorAll('.zsec').forEach(function(s,i){s.hidden=g&&i!=cur});
+ document.querySelectorAll('.z').forEach(function(z){var i=+z.dataset.z;z.classList.toggle('dis',rt.indexOf(i)<0);z.classList.toggle('on',g&&i==cur);z.setAttribute('aria-disabled',rt.indexOf(i)<0)});
+ $('bar').classList.toggle('on',g);
+ if(g){var k=rt.indexOf(cur);$('prog').textContent='第 '+(k+1)+' / '+rt.length+' 站：'+ZONES[cur];$('prev').disabled=k==0;$('next').textContent=k==rt.length-1?'完成導覽':'下一站'}}
+function goZone(i){if(ROUTE[mode].indexOf(i)<0)return;cur=i;render();$('z'+i).scrollIntoView()}
+$('floor').onclick=function(e){var z=e.target.closest('.z');if(z)goZone(+z.dataset.z)};
+$('floor').onkeydown=function(e){var z=e.target.closest('.z');if(z&&(e.key=='Enter'||e.key==' ')){e.preventDefault();goZone(+z.dataset.z)}};
+document.querySelectorAll('.mode').forEach(function(b){b.onclick=function(){mode=b.dataset.m;cur=ROUTE[mode][0];document.querySelectorAll('.mode').forEach(function(x){x.setAttribute('aria-pressed',x==b)});render();$('map').scrollIntoView()}});
+$('next').onclick=function(){var rt=ROUTE[mode],k=rt.indexOf(cur);if(k==rt.length-1){$('end').scrollIntoView();return}cur=rt[k+1];render();$('z'+cur).scrollIntoView()};
+$('prev').onclick=function(){var rt=ROUTE[mode],k=rt.indexOf(cur);if(k>0){cur=rt[k-1];render();$('z'+cur).scrollIntoView()}};
+$('restart').onclick=function(){mode='free';cur=0;document.querySelectorAll('.mode').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.m=='free')});render();$('modes').scrollIntoView()};
+/* 製作步驟 */
+$('steps').innerHTML=STEPS.map(function(s,i){return '<button data-i="'+i+'" aria-pressed="false">'+(i+1)+'. '+s[0]+'</button>'}).join('');
+function showStep(i){var s=STEPS[i];$('stepdetail').innerHTML=PH+'<div><h3>'+s[0]+'：'+s[1]+'</h3><p>'+s[2]+'</p></div>';document.querySelectorAll('#steps button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.i==i)})}
+$('steps').onclick=function(e){var b=e.target.closest('button');if(b)showStep(b.dataset.i)};showStep(2);
+/* 展示 */
+$('exh').innerHTML=EXH.map(function(x,i){return '<button data-i="'+i+'" aria-label="查看'+x[0]+'"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#clog"/></svg><br>'+x[0]+'</button>'}).join('');
+$('exh').onclick=function(e){var b=e.target.closest('button');if(!b)return;var x=EXH[b.dataset.i];$('dlgbody').innerHTML=PH+'<h3>'+x[0]+'</h3><p>'+x[1]+'</p>';$('dlg').showModal()};
+/* 體驗 */
+$('exps').innerHTML=EXP.map(function(x,i){return '<button data-i="'+i+'" aria-pressed="false">'+x[0]+'</button>'}).join('');
+function showExp(i){var x=EXP[i];$('expdetail').innerHTML='<h3>'+x[0]+'</h3><dl><dt>體驗時間</dt><dd>'+x[1]+'</dd><dt>適合年齡</dt><dd>'+x[2]+'</dd><dt>費用</dt><dd>'+x[3]+'</dd></dl><a class="btn" href="#contact">預約體驗</a>';document.querySelectorAll('#exps button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.i==i)})}
+$('exps').onclick=function(e){var b=e.target.closest('button');if(b)showExp(b.dataset.i)};showExp(0);
+render();
+
+$('startTour').onclick=function(){$('modes').scrollIntoView()};
+</script>
 </body>
 </html>
