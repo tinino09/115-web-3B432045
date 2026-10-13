@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>器物手作所｜木藝・陶藝・編織選物店</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Chiron+GoRound+TC:wght@500;700&display=swap">
+<style>
+:root{--bg:#fff;--sf:#fff;--ink:#33293a;--mu:#6b6275;--ac:#d63a60;--on:#fff;--ln:#ecdbe2;--w:#f59a3c;--p:#3fa9e0;--k:#3dbb86;--yl:#ffd23f;--ban:#fff3c4;--ban2:#ffe1ea;--er:#b3261e;color-scheme:light;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1520;--sf:#262030;--ink:#f4eef7;--mu:#bcb0c6;--ac:#ff8aa6;--on:#2a1620;--ln:#43384e;--w:#ffab5c;--p:#6cc4f0;--k:#62d4a0;--yl:#ffd23f;--ban:#3a3320;--ban2:#3b2430;--er:#ff9a90;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1a1520;--sf:#262030;--ink:#f4eef7;--mu:#bcb0c6;--ac:#ff8aa6;--on:#2a1620;--ln:#43384e;--w:#ffab5c;--p:#6cc4f0;--k:#62d4a0;--yl:#ffd23f;--ban:#3a3320;--ban2:#3b2430;--er:#ff9a90;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+h1,h2,h3,h4{font-family:"Noto Serif TC","Songti TC",serif;line-height:1.35;margin:0 0 .5em}
+h1{font-size:clamp(2rem,5vw,3.4rem)}h2{font-size:1.6rem}h3{font-size:1.15rem}h4{font-size:1.05rem;margin:0}
+a{color:var(--ac)}p{margin:0 0 1em;max-width:42em}
+:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+[id]{scroll-margin-top:130px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 20px}
+.lead{color:var(--mu)}
+.btn{display:inline-block;background:var(--ac);color:var(--on);border:0;border-radius:4px;padding:.55em 1.1em;font:inherit;text-decoration:none;cursor:pointer}
+.btn.sm{padding:.3em .8em;font-size:.9rem}.btn.big{padding:.8em 1.8em;font-size:1.1rem}.btn:disabled{opacity:.4;cursor:not-allowed}
+.lk{background:0;border:0;color:var(--ac);text-decoration:underline;font:inherit;cursor:pointer;padding:0}
+.hd{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--sf);border-bottom:1px solid var(--ln)}
+.top,.nv{max-width:1080px;margin:0 auto;padding:8px 20px;display:flex;align-items:center;gap:12px}
+.top{border-bottom:1px solid var(--ln)}
+.top form{position:relative;flex:1;max-width:340px;margin-right:auto}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:4px;padding:.5em .7em;width:100%}
+#sg{position:absolute;left:0;right:0;top:100%;margin:4px 0 0;padding:4px;list-style:none;background:var(--sf);border:1px solid var(--ln);border-radius:4px}
+#sg button{width:100%;text-align:left;background:0;border:0;padding:.5em;font:inherit;color:var(--ink);cursor:pointer}
+.cbt{background:0;border:1px solid var(--ln);border-radius:4px;color:var(--ink);font:inherit;padding:.4em .8em;cursor:pointer}
+.cbt b{background:var(--ac);color:var(--on);border-radius:99px;padding:0 .5em;margin-left:4px}
+.logo{font:700 1.2rem "Noto Serif TC",serif;color:var(--ink);text-decoration:none;margin-right:auto}
+.nv nav{display:flex;gap:4px;overflow-x:auto}
+.nv nav a{padding:.3em .8em;text-decoration:none;color:var(--ink);white-space:nowrap;border-bottom:2px solid transparent}
+.nv nav a[aria-current]{border-color:var(--ac);font-weight:700}
+.sw{display:block;width:100%;aspect-ratio:1;border-radius:2px}
+.sw[data-c=w]{background:repeating-linear-gradient(92deg,rgba(0,0,0,.14) 0 2px,transparent 2px 9px),repeating-linear-gradient(88deg,rgba(255,255,255,.1) 0 5px,transparent 5px 17px),var(--w)}
+.sw[data-c=p]{background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.4),transparent 55%),var(--p)}
+.sw[data-c=k]{background:repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 4px,transparent 4px 8px),repeating-linear-gradient(-45deg,rgba(0,0,0,.16) 0 4px,transparent 4px 8px),var(--k)}
+.hero{max-width:1080px;margin:0 auto;padding:56px 20px;display:grid;gap:32px;grid-template-columns:1fr 1fr;align-items:center}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.trio a{display:block;text-decoration:none;color:var(--ink);font:700 1.1rem "Noto Serif TC",serif}
+.trio .sw{height:280px;aspect-ratio:auto;margin-bottom:8px}
+.trio a:nth-child(2){margin-top:36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;margin-bottom:24px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:4px;overflow:hidden}
+.im{display:block;width:100%;padding:0;border:0;background:0;cursor:zoom-in}
+.cb{padding:12px 14px 14px}
+.tag{font-size:.8rem;padding:0 .6em;border:1px solid;border-radius:99px;color:var(--w)}
+.tag[data-c=p]{color:var(--p)}.tag[data-c=k]{color:var(--k)}
+.pr{font-weight:700;margin:4px 0}
+.ac{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.hb{font-size:1.5rem;background:0;border:0;color:var(--ac);cursor:pointer}
+.empty{color:var(--mu)}
+.zone{padding:36px 0;border-top:1px solid var(--ln)}
+.zh{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center;margin-bottom:16px}
+.items{list-style:none;padding:0;margin:0 0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.items li{background:var(--sf);border:1px solid var(--ln);padding:12px 14px;border-radius:4px}
+.items p{margin:4px 0 0;color:var(--mu);font-size:.95rem}
+.focus{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:0 0 16px}
+dt{font-weight:700}dd{margin:0;color:var(--mu)}
+.hl{outline:3px solid var(--ac);outline-offset:4px}
+.ar{display:grid;grid-template-columns:240px 1fr;gap:24px;padding:28px 0;border-top:1px solid var(--ln)}
+.ar .sw{aspect-ratio:4/5}
+.story{border-left:3px solid var(--ac);padding-left:16px;margin-top:12px}
+.quiz{background:var(--sf);border:1px solid var(--ln);border-radius:4px;padding:24px}
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.opt{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:4px;padding:.6em 1.2em;cursor:pointer}
+.opt:hover{border-color:var(--ac)}
+dialog{border:0;border-radius:4px;background:var(--sf);color:var(--ink);padding:0;width:min(760px,94vw)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+.x{position:absolute;right:8px;top:8px;z-index:1;background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:4px;font-size:1rem;cursor:pointer;padding:.2em .6em}
+#mb{display:grid;grid-template-columns:1fr 1fr}#mb .sw{height:100%;min-height:260px;aspect-ratio:auto;border-radius:0}
+.mt{padding:28px 24px}
+dialog.dr{margin:0 0 0 auto;height:100%;max-height:100%;width:min(380px,100%);border-radius:0;padding:20px}
+#ci{list-style:none;padding:0}
+#ci li{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}
+#ci .sw{width:48px}#ci li.empty{display:block}
+.qt{display:flex;align-items:center;gap:8px}.qt button{width:28px;height:28px;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-radius:4px;cursor:pointer}
+.fm{display:grid;gap:18px;max-width:520px;border:0;padding:0;margin:0}
+.fm label{display:block;font-weight:700;margin-bottom:4px}
+.req{font-weight:400;color:var(--mu);font-size:.85rem}
+.er{color:var(--er);min-height:1.3em;font-size:.9rem;margin:2px 0 0}
+.cta{text-align:center;border-top:1px solid var(--ln)}
+footer{border-top:1px solid var(--ln);background:var(--sf)}
+.ft{max-width:1080px;margin:0 auto;padding:28px 20px;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+address{font-style:normal}.ft ul{list-style:none;padding:0;margin:0}
+#ts{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.5em 1em;border-radius:4px;z-index:20}
+#ts:empty{display:none}
+@media(max-width:720px){.hero,.ar,#mb{grid-template-columns:1fr}.zh{grid-template-columns:80px 1fr}.trio .sw{height:160px}.top{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+h1,h2,h3,h4,.logo,.trio a{font-family:"Chiron GoRound TC","Noto Sans TC",sans-serif;font-weight:700}
+.btn,.cbt,.opt{border-radius:999px}
+.btn{box-shadow:0 3px 0 rgba(0,0,0,.18);font-weight:700;transition:transform .15s}
+.btn:active{transform:translateY(2px);box-shadow:none}
+input,select{border-radius:14px;border:2px solid var(--ln);background:var(--sf)}
+input:focus,select:focus{border-color:var(--ac)}
+.hd{border-bottom:3px solid var(--yl)}.top{border-bottom:0}
+.nv nav a{border:0;border-radius:999px;padding:.35em 1em}
+.nv nav a[aria-current]{background:var(--yl);color:#33293a}
+.cbt{border:2px solid var(--ln)}.cbt b{background:var(--yl);color:#33293a}
+.sw{border-radius:24px;display:grid;place-items:center;--e:64px}
+.sw::after{font-size:var(--e);line-height:1}
+.sw[data-c=w]::after{content:"🪵"}.sw[data-c=p]::after{content:"🏺"}.sw[data-c=k]::after{content:"🧺"}
+.sw[data-c=w]{background:radial-gradient(rgba(255,255,255,.5) 3px,transparent 4px) 0 0/22px 22px,var(--w)}
+.sw[data-c=p]{background:radial-gradient(rgba(255,255,255,.5) 5px,transparent 6px) 0 0/30px 30px,var(--p)}
+.sw[data-c=k]{background:radial-gradient(rgba(255,255,255,.5) 2px,transparent 3px) 0 0/14px 14px,var(--k)}
+.trio .sw{border-radius:140px 140px 28px 28px;--e:48px}
+.zh .sw{border-radius:50%;--e:44px}.ar .sw{--e:72px}#ci .sw{--e:22px;border-radius:14px}#mb .sw{--e:96px;border-radius:0}
+.hero{position:relative;background:var(--ban);box-shadow:0 0 0 100vmax var(--ban);clip-path:inset(0 -100vmax)}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;z-index:0}
+.hero::before{width:120px;height:120px;background:var(--ban2);left:38%;top:12px}
+.hero::after{width:70px;height:70px;background:var(--yl);left:4%;bottom:14px}
+.hero>*{position:relative;z-index:1}
+.cta{background:var(--ban2);box-shadow:0 0 0 100vmax var(--ban2);clip-path:inset(0 -100vmax);border:0}
+.card{border:3px solid var(--ln);border-radius:26px;transition:transform .15s}
+.card:hover{transform:translateY(-4px)}
+.card:has([data-c=w]){border-color:var(--w)}.card:has([data-c=p]){border-color:var(--p)}.card:has([data-c=k]){border-color:var(--k)}
+.im .sw{border-radius:0}
+.tag,.tag[data-c=p],.tag[data-c=k]{border:0;color:#33293a;font-weight:700;padding:.05em .8em;background:var(--w)}
+.tag[data-c=p]{background:var(--p)}.tag[data-c=k]{background:var(--k)}
+.zone{border:0;border-radius:32px;padding:28px;margin-bottom:24px;background:color-mix(in srgb,var(--w) 16%,var(--sf))}
+#pottery{background:color-mix(in srgb,var(--p) 16%,var(--sf))}#weaving{background:color-mix(in srgb,var(--k) 16%,var(--sf))}
+.items li{border:0;border-radius:20px}
+.ar{border:0;border-radius:32px;padding:20px;margin-bottom:20px;background:color-mix(in srgb,var(--w) 16%,var(--sf))}
+.ar:has([data-c=p]){background:color-mix(in srgb,var(--p) 16%,var(--sf))}.ar:has([data-c=k]){background:color-mix(in srgb,var(--k) 16%,var(--sf))}
+.story{border-left:0;background:var(--sf);border-radius:20px;padding:14px 18px}
+.quiz{border:0;border-radius:32px;background:var(--ban);padding:28px}
+.opt{border:2px solid var(--ln);background:var(--sf);font-weight:700}.opt:hover{background:var(--yl);color:#33293a;border-color:var(--yl)}
+footer{background:var(--ban2);border-top:0}
+dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
+
+/* 客服浮動聊天視窗 */
+.floating-btn{position:fixed;right:20px;bottom:20px;z-index:1000;background:#a56d4d;color:#fff;padding:13px 19px;border:0;border-radius:30px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);font:inherit;font-weight:700;transition:transform .2s}
+.floating-btn:hover{transform:translateY(-2px)}
+.chat-container{position:fixed;right:20px;bottom:82px;width:min(350px,calc(100vw - 32px));height:min(470px,calc(100dvh - 115px));z-index:999;background:#fefbf6;border:1px solid #dfcfc2;box-shadow:0 8px 24px rgba(0,0,0,.22);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;color:#33293a;opacity:1;pointer-events:auto;transform:scale(1);transform-origin:bottom right;transition:opacity .2s,transform .2s}
+.chat-container.hidden{opacity:0;pointer-events:none;transform:scale(.94);visibility:hidden}
+.chat-container>header{background:#a56d4d;color:#fff;padding:13px 16px;font-weight:700}
+.message-area{flex:1;min-height:0;padding:14px;overflow-y:auto;border-bottom:1px solid #eee;background:#fffdf9}
+.message{max-width:88%;padding:10px 12px;margin:0 0 10px;border-radius:15px;line-height:1.5;white-space:pre-line;overflow-wrap:anywhere}
+.user-msg{background:#ead0b5;margin-left:auto;border-bottom-right-radius:5px}
+.bot-msg{background:#fff0df;margin-right:auto;border-bottom-left-radius:5px}
+.input-area{display:flex;align-items:center;gap:8px;padding:10px;margin:0}
+#user-input{min-width:0;flex:1;padding:10px 12px;border:1px solid #d8c8bb;border-radius:22px;font:inherit;font-size:14px;background:#fff}
+#send-btn{flex-shrink:0;background:#a56d4d;color:#fff;border:0;padding:10px 14px;border-radius:22px;cursor:pointer;font:inherit;font-weight:700}
+#send-btn:hover{background:#87563d}
+.chat-footer{font-size:11px;text-align:center;padding:7px;background:#faf4ed;border-top:1px solid #eee0d4;color:#76665b}
+@media(max-width:480px){.floating-btn{right:14px;bottom:14px;padding:11px 15px}.chat-container{right:10px;bottom:70px;width:calc(100vw - 20px);height:min(470px,calc(100dvh - 90px))}}
+
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="top">
+    <form id="sf" role="search"><label for="q" class="vh">搜尋商品</label><input id="q" type="search" placeholder="搜尋商品，例如：茶器、竹編" autocomplete="off"><ul id="sg" hidden></ul></form>
+    <a class="btn sm" href="#contact">聯絡我們</a>
+    <button class="cbt" data-a="cart" aria-label="開啟購物車">購物車<b id="cn">0</b></button>
+  </div>
+  <div class="nv">
+    <a class="logo" href="#home">🏺 器物手作所</a>
+    <nav aria-label="主選單"><a href="#home">首頁</a><a href="#craft">工藝探索</a><a href="#weekly">本周選物</a><a href="#artisans">職人故事區</a><a href="#contact">聯絡</a></nav>
+  </div>
+</header>
+
+<main>
+<section class="pg" id="home">
+  <div class="hero">
+    <div>
+      <h1>手作，從材質開始</h1>
+      <p class="lead">木藝、陶藝、編織。每件器物都附上它的材質、技法與職人故事。</p>
+      <a class="btn big" href="#craft">探索工藝</a>
+    </div>
+    <div class="trio">
+      <a href="#craft/wood"><span class="sw" data-c="w"></span>木藝</a>
+      <a href="#craft/pottery"><span class="sw" data-c="p"></span>陶藝</a>
+      <a href="#craft/weaving"><span class="sw" data-c="k"></span>編織</a>
+    </div>
+  </div>
+  <div class="wrap"><h2>本周選物</h2><div class="grid" id="hw"></div><p><a href="#weekly">看全部本周選物</a></p></div>
+  <div class="wrap cta"><h2>想先來店裡看看？</h2><p style="margin-inline:auto">留下聯絡方式與方便的時段，我們會與你確認。</p><a class="btn" href="#contact">預約聯絡</a></div>
+</section>
+
+<section class="pg" id="craft" hidden>
+  <div class="wrap"><h1>工藝探索</h1><p class="lead">三種工藝，各自有該看的地方。</p><div id="cz"></div></div>
+</section>
+
+<section class="pg" id="weekly" hidden>
+  <div class="wrap">
+    <h1>本周選物</h1><p class="lead">點擊商品圖片，查看材質、工法與特色。</p>
+    <h2>本周精選</h2><div class="grid" id="wk"></div>
+    <h2>我的收藏</h2><div class="grid" id="fv"></div>
+    <h2>個人化選物推薦</h2><div class="quiz" id="qz"></div>
+  </div>
+</section>
+
+<section class="pg" id="artisans" hidden>
+  <div class="wrap"><h1>職人故事區</h1><p class="lead">每件器物背後，都有一雙手。</p><div id="al"></div></div>
+</section>
+
+<section class="pg" id="contact" hidden>
+  <div class="wrap">
+    <h1>聯絡我們</h1><p class="lead">留下資料，我們會以 email 回覆。</p>
+    <form id="cf" class="fm" novalidate>
+      <div><label for="name">姓名 <span class="req">必填</span></label><input id="name" name="name" type="text" autocomplete="name" required aria-describedby="e-name"><p class="er" id="e-name"></p></div>
+      <div><label for="email">Email <span class="req">必填</span></label><input id="email" name="email" type="email" autocomplete="email" required aria-describedby="e-email"><p class="er" id="e-email"></p></div>
+      <div><label for="vt">預約時間</label><select id="vt" name="visit-time"><option value="">請選擇</option><option>平日上午</option><option>平日下午</option><option>假日上午</option><option>假日下午</option></select></div>
+      <div><label for="purpose">聯絡目的</label><input id="purpose" name="purpose" type="text"></div>
+      <div><button class="btn" type="submit">送出訊息</button></div>
+      <p role="status" id="cs"></p>
+    </form>
+    <h2 style="margin-top:40px">店面資訊</h2>
+    <address>台中市示意路 1 號<br>週二至週日 10:00–18:00，週一公休</address>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="ft">
+    <div><strong>器物手作所</strong><p>木藝、陶藝、編織的生活選物店。<br>預覽版：商品為示意內容；職人資料取自公開報導。</p></div>
+    <nav aria-label="頁尾選單"><ul><li><a href="#craft">工藝探索</a></li><li><a href="#weekly">本周選物</a></li><li><a href="#artisans">職人故事區</a></li><li><a href="#contact">聯絡</a></li></ul></nav>
+  </div>
+</footer>
+
+<dialog id="md" aria-label="商品詳情"><button class="x" data-a="close" aria-label="關閉">✕</button><div id="mb"></div></dialog>
+<dialog id="dr" class="dr" aria-label="購物車"><button class="x" data-a="close" aria-label="關閉購物車">✕</button><h2>購物車</h2><ul id="ci"></ul><p>小計：<strong id="ct">NT$0</strong></p><button class="btn" id="co" data-a="co">結帳</button></dialog>
+<div id="ts" role="status"></div>
+
+<!-- 客服浮動聊天按鈕和窗口 -->
+<button id="chat-button" class="floating-btn" type="button" aria-controls="chat-widget" aria-expanded="false">💬 詢問客服</button>
+<section id="chat-widget" class="chat-container hidden" aria-label="工坊客服聊天視窗" aria-hidden="true">
+  <header>🏺 工坊諮詢</header>
+  <div id="messages" class="message-area" aria-live="polite">
+    <div class="message bot-msg">您好，很高興為您服務。請問您是在查詢某件產品細節，還是需要預約試看呢？</div>
+  </div>
+  <form id="chat-form" class="input-area">
+    <label class="vh" for="user-input">輸入您的問題</label>
+    <input type="text" id="user-input" placeholder="輸入您的問題…（例如：這是什麼材料？）" autocomplete="off" maxlength="500">
+    <button type="submit" id="send-btn">發送</button>
+  </form>
+  <div class="chat-footer">© 🏺 器物手作所 | 客服專線</div>
+</section>
+
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const L={w:'木藝',p:'陶藝',k:'編織'};
+const CR=[
+{k:'w',id:'wood',n:'木藝',a:'a1',d:'從一塊木頭看見年輪、刀痕與時間。',it:[['wood-daily','木製生活用品','托盤 砧板 餐具 木盤 木勺','日常使用的托盤、砧板與餐具，越用越有光澤。'],['wood-carving','木雕','雕刻 雕花 刀痕','保留刀痕的手雕作品，每一刀都有方向。'],['wood-clog','木屐','木鞋 下駄 歷史','從日常穿著到文化記憶的傳統木屐。']],f:[['木材紋理','年輪與色差不做遮蓋，每件的紋路都不同。'],['雕刻細節','刀痕深淺與收邊處理，近看才看得出的功夫。'],['製作工序','選材、粗胚、刨削、打磨、上蠟，逐步看懂一件木器。'],['歷史故事','木屐與木作在地方生活裡的來歷。']]},
+{k:'p',id:'pottery',n:'陶藝',a:'a2',d:'器型、釉色與手感，都是火與手共同決定的。',it:[['pottery-cup','陶杯','杯子 咖啡 茶杯 馬克杯','手拉坯成形，杯口厚薄與握感各有不同。'],['pottery-tea','茶器','茶壺 茶盞 泡茶 茶具 公杯','壺、盞與公杯，講究出水與手感。'],['pottery-vase','花器','花瓶 插花 擺飾','為一枝花而作的器型。'],['pottery-plate','手工陶盤','盤子 餐盤 器皿','每只盤的弧度與釉面都略有差異。']],f:[['器型','口徑、高度與重心，決定好不好拿、好不好倒。'],['釉色','同一款釉在不同窯位會出現深淺與流動差異。'],['手工製作差異','同一系列並排看，差異就是手作的證明。']]},
+{k:'k',id:'weaving',n:'編織',a:'a3',d:'一條條竹篾與藤，交錯成日常用的器物。',it:[['weaving-bamboo','竹編收納','竹籃 收納盒 收納籃','以竹篾編成的收納籃，輕巧透氣。'],['weaving-basket','編織提籃','提籃 藤編 籃子 菜籃','結構紮實的提籃，日常外出也好用。'],['weaving-small','生活編織小物','杯墊 隔熱墊 小物','杯墊、隔熱墊等小物，把編織帶進桌面。']],f:[['編織紋理','經緯交錯的節奏，從六角孔到人字紋。'],['材料','竹、藤、草等材料的選取與處理。'],['技法','起底、編織、收邊，看懂一個籃子怎麼成形。']]}];
+const P=[
+{id:1,n:'檜木手作托盤',c:'w',it:'wood-daily',pr:1280,sc:['實用','送禮'],st:'溫潤自然',m:'台灣檜木，保留原木紋理與天然香氣。',t:'手工刨削成形，邊角圓潤打磨，以植物蠟封面。',f:'防潮透氣，使用越久木色越深。',a:'a1',wk:1},
+{id:2,n:'手雕桐木木屐',c:'w',it:'wood-clog',pr:2200,sc:['裝飾','送禮'],st:'質樸手作',m:'輕質桐木，木紋清晰。',t:'手工粗胚後以雕刀修形，齒部榫接固定。',f:'可穿也可掛牆展示，保留傳統木屐的聲響。',a:'a1'},
+{id:3,n:'手拉坯陶杯',c:'p',it:'pottery-cup',pr:480,sc:['實用'],st:'簡約日式',m:'高溫陶土，素面霧釉。',t:'手拉坯成形，素燒後施釉，1,230°C 燒成。',f:'杯口薄、握感穩，每只釉色略有不同。',a:'a2',wk:1},
+{id:4,n:'柴燒茶器組',c:'p',it:'pottery-tea',pr:3600,sc:['送禮','實用'],st:'質樸手作',m:'粗陶土，柴燒落灰自然成釉。',t:'手拉坯成形，柴窯燒成，落灰釉隨火路生成。',f:'一壺兩盞，出水俐落，灰釉紋路獨一無二。',a:'a2',wk:1},
+{id:5,n:'竹編收納籃',c:'k',it:'weaving-bamboo',pr:960,sc:['實用','裝飾'],st:'簡約日式',m:'桂竹篾，經煮沸防蟲處理。',t:'六角孔編法，口緣以藤皮收邊。',f:'輕巧透氣，適合收納衣物與雜物。',a:'a3',wk:1},
+{id:6,n:'藤編提籃',c:'k',it:'weaving-basket',pr:1850,sc:['裝飾','實用'],st:'溫潤自然',m:'藤條，附棉布內襯。',t:'人字編織，手工彎製提把。',f:'結構紮實，可日常外出使用。',a:'a3'}];
+const A=[
+{id:'a1',n:'李秉圭',c:'w',t:'第五代木雕家族傳人，在傳統與創新之間找平衡。',s:'李秉圭1949年生於鹿港，李氏家族從事木雕已傳到第五代，父親是國家重要民族藝術藝師李松林。他讀完商專、服完兵役才回家學雕刻，但從小跟在父親身邊，很快就掌握各道工序。他認為創作要在傳統與創新之間取得平衡，也特別看重第一步「繪稿」，好的手稿決定成品好壞。作品多用樟木與檜木，並依題材調整處理方式：有的保留粗獷的原貌，有的打磨光滑以表現衣料質感。2013年起，他陸續獲登錄為「鑿花技術」與「傳統木雕」保存者，2022年獲國家工藝成就獎。',u:'https://www.bocach.gov.tw/LI-PING-KUEI.htm',src:'彰化縣文化局'},
+{id:'a2',n:'李仁燿',c:'p',t:'活躍於茶書畫圈的陶藝家。',s:'李仁燿現為台灣茶書畫藝術聯誼會與台灣茶書畫藝術協會的陶藝專家。目前查得的代表作之一是《蔚藍垂光》（28×15×15公分），介紹頁以杜甫的詩句為這件作品作註。更完整的經歷與製作故事，待取得他的資料後補上。',u:'https://artmaitre.com/art/%E6%9D%8E%E4%BB%81%E7%87%BF/',src:'國家藝術聯盟'},
+{id:'a3',n:'張憲平',c:'k',t:'從藺草世家跨進竹編，把日用竹器做成藝術品。',s:'張憲平出身藺草編織世家。1970年前後，因外銷竹編燈具的需求，他接手製作精緻竹藝品，當時連取材、劈剝竹子都得從頭摸索，卻就此走上竹籐編織的路。他以桂竹為主要素材，運用六角孔等編法，並獨創仿古髹塗技法，讓竹器帶有古器般的厚實質感。1990年獲民族藝術薪傳獎，1992至1994年連續三年獲民族工藝獎，2016年登錄為「竹籐編」保存者，後來也獲得國家工藝成就獎。',u:'https://themefile.culture.tw/ntcri/quarterly/files/e543fff5-5398-4b7d-b68a-5831bb7a1c95.pdf',src:'《工藝》季刊焦點人物報導'}];
+const byId=i=>P.find(p=>p.id==i),art=i=>A.find(a=>a.id==i),yen=n=>'NT$'+n.toLocaleString();
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let fav=ld('fav',[]),cart=ld('cart',{}),tt;
+const toast=m=>{$('#ts').textContent=m;clearTimeout(tt);tt=setTimeout(()=>$('#ts').textContent='',2000)};
+const card=p=>`<article class="card"><button class="im" data-a="open" data-id="${p.id}" aria-label="查看${p.n}的材質與工法"><span class="sw" data-c="${p.c}"></span></button><div class="cb"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h3>${p.n}</h3><p class="pr">${yen(p.pr)}</p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div></article>`;
+$('#cz').innerHTML=CR.map(z=>`<article class="zone" id="${z.id}"><div class="zh"><span class="sw" data-c="${z.k}"></span><div><h2>${z.n}</h2><p class="lead">${z.d}</p></div></div><h3>品項</h3><ul class="items">${z.it.map(i=>`<li id="${i[0]}"><h4>${i[1]}</h4><p>${i[3]}</p></li>`).join('')}</ul><h3>展示重點</h3><dl class="focus">${z.f.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl><p><a href="#weekly">看相關作品</a>　<a href="#artisans/${z.a}">認識職人</a></p></article>`).join('');
+$('#al').innerHTML=A.map(a=>`<article class="ar" id="${a.id}"><span class="sw" data-c="${a.c}"></span><div><span class="tag" data-c="${a.c}">${L[a.c]}</span><h2>${a.n}</h2><p>${a.t}</p><button class="btn sm" data-a="story" data-id="${a.id}" aria-expanded="false" aria-controls="s-${a.id}">閱讀完整故事</button><div class="story" id="s-${a.id}" hidden><p>${a.s}</p><p class="lead">資料來源：<a href="${a.u}" target="_blank" rel="noopener">${a.src}</a></p><p><a href="#weekly">看他的作品</a>　<a href="#craft/${CR.find(z=>z.k==a.c).id}">了解${L[a.c]}</a></p></div></div></article>`).join('');
+function story(id,on){const b=$(`[aria-controls=s-${id}]`);$('#s-'+id).hidden=!on;b.setAttribute('aria-expanded',on);b.textContent=on?'收合故事':'閱讀完整故事'}
+const QS=[['這件器物主要用在哪裡？',['實用','裝飾','送禮']],['喜歡哪一種風格？',['簡約日式','溫潤自然','質樸手作']],['預算大約多少？',['NT$500 以下','NT$500–1,500','NT$1,500–3,000','NT$3,000 以上']]],BR=[[0,500],[500,1500],[1500,3000],[3000,1e9]];let Q=[];
+function quiz(){const i=Q.length,q=$('#qz');
+if(i<3){q.innerHTML=`<p class="lead">第 ${i+1} 題，共 3 題</p><h3>${QS[i][0]}</h3><div class="opts">${QS[i][1].map((o,j)=>`<button class="opt" data-a="qa" data-v="${j}">${o}</button>`).join('')}</div>${i?'<button class="lk" data-a="qb">上一題</button>':''}`;return}
+const sc=QS[0][1][Q[0]],st=QS[1][1][Q[1]],[lo,hi]=BR[Q[2]],inR=p=>p.pr>=lo&&p.pr<hi;let pool=P.filter(inR);const rx=pool.length<3;if(rx)pool=P;
+const r=pool.map(p=>({p,n:(p.sc.includes(sc)?1:0)+(p.st==st?1:0)})).sort((x,y)=>(y.n*2+inR(y.p))-(x.n*2+inR(x.p))||x.p.pr-y.p.pr).slice(0,3);
+q.innerHTML=`<h3>為你推薦</h3><p class="lead">${sc}、${st}、${QS[2][1][Q[2]]}${rx?'（符合的商品較少，已放寬預算）':''}</p><div class="grid">${r.map(x=>card(x.p)).join('')}</div><button class="lk" data-a="qr">重新作答</button>`}
+function cartui(){const ids=Object.keys(cart);$('#cn').textContent=ids.reduce((s,i)=>s+cart[i],0);$('#ci').innerHTML=ids.length?ids.map(i=>{const p=byId(i);return `<li><span class="sw" data-c="${p.c}"></span><div><b>${p.n}</b><br>${yen(p.pr)}</div><div class="qt"><button data-a="dec" data-id="${i}" aria-label="減少">−</button><span>${cart[i]}</span><button data-a="inc" data-id="${i}" aria-label="增加">＋</button></div></li>`}).join(''):'<li class="empty">購物車是空的。到本周選物挑一件吧。</li>';$('#ct').textContent=yen(ids.reduce((s,i)=>s+byId(i).pr*cart[i],0));$('#co').disabled=!ids.length}
+function draw(){$('#hw').innerHTML=P.filter(p=>p.wk).slice(0,3).map(card).join('');$('#wk').innerHTML=P.filter(p=>p.wk).map(card).join('');$('#fv').innerHTML=fav.length?fav.map(byId).map(card).join(''):'<p class="empty">還沒有收藏。點選商品上的愛心，就會收在這裡。</p>';quiz();cartui()}
+const SI=[...CR.flatMap(z=>[{n:z.n,k:'',t:z.id,c:z.k},...z.it.map(i=>({n:i[1],k:i[2],t:i[0],c:z.k}))]),...P.map(p=>({n:p.n,k:'',t:p.it,c:p.c}))];
+const q=$('#q'),sg=$('#sg');
+function sres(){const v=q.value.trim().toLowerCase();if(!v){sg.hidden=true;return[]}const r=SI.filter(x=>(x.n+x.k).toLowerCase().includes(v)).slice(0,6);sg.innerHTML=r.length?r.map(x=>`<li><button type="button" data-a="go" data-t="${x.t}">${x.n}　<small>${L[x.c]}</small></button></li>`).join(''):'<li style="padding:.5em">找不到相關商品。試試 <a href="#craft/wood">木藝</a>、<a href="#craft/pottery">陶藝</a>、<a href="#craft/weaving">編織</a></li>';sg.hidden=false;return r}
+function jump(t){sg.hidden=true;q.value='';const h='#craft/'+t;location.hash==h?go():location.hash=h}
+q.addEventListener('input',sres);$('#sf').addEventListener('submit',e=>{e.preventDefault();const r=sres();if(r[0])jump(r[0].t)});
+function go(){const[pg0,an]=location.hash.slice(1).split('/');const pg=$$('.pg').some(s=>s.id==pg0)?pg0:'home';sg.hidden=true;$$('.pg').forEach(s=>s.hidden=s.id!=pg);$$('.nv nav a').forEach(a=>a.getAttribute('href')=='#'+pg?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+const el=an&&document.getElementById(an);if(el){if(pg=='artisans')story(an,true);el.scrollIntoView();el.classList.add('hl');setTimeout(()=>el.classList.remove('hl'),2200)}else scrollTo(0,0)}
+addEventListener('hashchange',go);
+document.addEventListener('click',e=>{if(!e.target.closest('#sf'))sg.hidden=true;const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
+if(a=='fav'){const on=!fav.includes(id);fav=on?[...fav,id]:fav.filter(x=>x!=id);sv('fav',fav);b.setAttribute('aria-pressed',on);b.textContent=on?'♥':'♡';draw()}
+else if(a=='add'){cart[id]=(cart[id]||0)+1;sv('cart',cart);cartui();toast('已加入購物車')}
+else if(a=='inc'||a=='dec'){cart[id]+=a=='inc'?1:-1;if(cart[id]<1)delete cart[id];sv('cart',cart);cartui()}
+else if(a=='cart')$('#dr').showModal();
+else if(a=='close')b.closest('dialog').close();
+else if(a=='open'){const p=byId(id),z=CR.find(z=>z.k==p.c);$('#mb').innerHTML=`<span class="sw" data-c="${p.c}"></span><div class="mt"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h2>${p.n}</h2><p class="pr">${yen(p.pr)}</p><dl><dt>材質</dt><dd>${p.m}</dd><dt>工法</dt><dd>${p.t}</dd><dt>特色</dt><dd>${p.f}</dd></dl><p><a data-a="close" href="#artisans/${p.a}">認識職人 ${art(p.a).n}</a><br><a data-a="close" href="#craft/${p.it}">了解${z.n}</a></p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div>`;$('#md').showModal()}
+else if(a=='story')story(b.dataset.id,b.getAttribute('aria-expanded')!='true');
+else if(a=='qa'){Q.push(+b.dataset.v);quiz()}else if(a=='qb'){Q.pop();quiz()}else if(a=='qr'){Q=[];quiz()}
+else if(a=='go')jump(b.dataset.t);
+else if(a=='co'){$('#purpose').value='詢問商品：'+Object.keys(cart).map(i=>byId(i).n+'×'+cart[i]).join('、');$('#dr').close();location.hash='#contact'}});
+$$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target==d)d.close()}));
+$('#cf').addEventListener('submit',e=>{e.preventDefault();let first;['name','email'].forEach(k=>{const i=$('#'+k),bad=!i.checkValidity();$('#e-'+k).textContent=bad?(i.validity.valueMissing?(k=='name'?'請填寫姓名。':'請填寫 email。'):'請輸入有效的 email，例如 name@example.com。'):'';i.setAttribute('aria-invalid',bad);if(bad&&!first)first=i});
+if(first){first.focus();$('#cs').textContent='';return}$('#cs').textContent='已收到你的訊息。預覽版不會實際寄出，正式版會送到店家信箱。';e.target.reset()});
+draw();go();
+
+  // 客服聊天 Widget：前端關鍵字模擬回覆，尚未連接真人客服或後端 AI
+  (() => {
+    const chatButton = document.getElementById('chat-button');
+    const chatWidget = document.getElementById('chat-widget');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const messagesArea = document.getElementById('messages');
+    if (!chatButton || !chatWidget || !chatForm || !userInput || !messagesArea) return;
+
+    function toggleChat() {
+      const opening = chatWidget.classList.contains('hidden');
+      chatWidget.classList.toggle('hidden', !opening);
+      chatWidget.setAttribute('aria-hidden', String(!opening));
+      chatButton.setAttribute('aria-expanded', String(opening));
+      if (opening) userInput.focus();
+    }
+    chatButton.addEventListener('click', toggleChat);
+
+    chatForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user-msg');
+      userInput.value = '';
+      userInput.focus();
+      window.setTimeout(() => appendMessage(simulateBotResponse(message), 'bot-msg'), 500);
+    });
+
+    function appendMessage(text, className) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message ' + className;
+      messageDiv.textContent = text;
+      messagesArea.appendChild(messageDiv);
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+
+    function simulateBotResponse(input) {
+      const q = input.toLowerCase();
+      if (q.includes('價格') || q.includes('多少錢') || q.includes('價錢') || q.includes('費用')) {
+        return '不同作品的價格不同，您可以到「本周選物」查看商品與價格。若您告訴我作品名稱，我可以協助您找到相關資訊。';
+      }
+      if (q.includes('預約') || q.includes('試看') || q.includes('營業時間') || q.includes('幾點')) {
+        return '歡迎預約到店參觀！網站目前標示營業時間為週二至週日 10:00–18:00，週一公休。您也可以點選頁面上方「聯絡我們」填寫聯絡資料。';
+      }
+      if (q.includes('材質') || q.includes('原料') || q.includes('材料')) {
+        return '我們介紹木藝、陶藝與編織作品。您可以在「本周選物」點擊商品，查看該作品的材質、工法與特色。';
+      }
+      if (q.includes('木藝') || q.includes('木頭') || q.includes('木材')) {
+        return '木藝作品包含檜木手作托盤與手雕桐木木屐。您可以前往「工藝探索」查看木藝介紹，或在「本周選物」點擊商品看詳細資訊。';
+      }
+      if (q.includes('陶') || q.includes('杯') || q.includes('茶器')) {
+        return '陶藝作品包含手拉坯陶杯與柴燒茶器組。點擊「本周選物」中的商品，就能查看材質、工法和特色。';
+      }
+      if (q.includes('編織') || q.includes('竹編') || q.includes('籃')) {
+        return '編織選物包含竹編收納籃與藤編提籃。歡迎到「工藝探索」或「本周選物」查看更多內容。';
+      }
+      if (q.includes('謝謝') || q.includes('感謝')) {
+        return '不客氣！期待您來器物手作所逛逛。若還有其他問題，歡迎繼續詢問。';
+      }
+      return '感謝您的詢問：「' + input + '」。目前這是關鍵字模擬客服，尚未連接真人客服或 AI。您可以點選「聯絡我們」填寫表單，或告訴我您想了解的商品、材質、價格或預約資訊。';
+    }
+  })();
+
+</script>
+</body>
+</html>
