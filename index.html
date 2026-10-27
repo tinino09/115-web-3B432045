@@ -82,6 +82,7 @@ dialog.dr{margin:0 0 0 auto;height:100%;max-height:100%;width:min(380px,100%);bo
 #ci li{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}
 #ci .sw{width:48px}#ci li.empty{display:block}
 .qt{display:flex;align-items:center;gap:8px}.qt button{width:28px;height:28px;font:inherit;background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-radius:4px;cursor:pointer}
+.qt input{width:56px;padding:.25em .3em;text-align:center}
 .fm{display:grid;gap:18px;max-width:520px;border:0;padding:0;margin:0}
 .fm label{display:block;font-weight:700;margin-bottom:4px}
 .req{font-weight:400;color:var(--mu);font-size:.85rem}
@@ -157,9 +158,16 @@ dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
 <body>
 <header class="hd">
   <div class="top">
-    <form id="sf" role="search"><label for="q" class="vh">搜尋商品</label><input id="q" type="search" placeholder="搜尋商品，例如：茶器、竹編" autocomplete="off"><ul id="sg" hidden></ul></form>
+    <div id="searchApp" style="display:contents"><form id="sf" role="search" @submit.prevent="submit">
+      <label for="q" class="vh">搜尋商品</label>
+      <input id="q" type="search" v-model="keyword" @input="open = true" @focus="open = true" placeholder="搜尋商品，例如：茶器、竹編" autocomplete="off">
+      <ul id="sg" style="display:none" v-show="open && keyword.trim()">
+        <li v-for="r in results" :key="r.t + r.n"><button type="button" @click="pick(r)">{{ r.n }}　<small>{{ L[r.c] }}</small></button></li>
+        <li v-if="!results.length" style="padding:.5em">找不到相關商品。試試 <a href="#craft/wood">木藝</a>、<a href="#craft/pottery">陶藝</a>、<a href="#craft/weaving">編織</a></li>
+      </ul>
+    </form></div>
     <a class="btn sm" href="#contact">聯絡我們</a>
-    <button class="cbt" data-a="cart" aria-label="開啟購物車">購物車<b id="cn">0</b></button>
+    <button class="cbt" id="cartBtn" data-a="cart" aria-label="開啟購物車">購物車<b>{{ cartCount }}</b></button>
   </div>
   <div class="nv">
     <a class="logo" href="#home">🏺 器物手作所</a>
@@ -227,7 +235,24 @@ dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
 </footer>
 
 <dialog id="md" aria-label="商品詳情"><button class="x" data-a="close" aria-label="關閉">✕</button><div id="mb"></div></dialog>
-<dialog id="dr" class="dr" aria-label="購物車"><button class="x" data-a="close" aria-label="關閉購物車">✕</button><h2>購物車</h2><ul id="ci"></ul><p>小計：<strong id="ct">NT$0</strong></p><button class="btn" id="co" data-a="co">結帳</button></dialog>
+<dialog id="dr" class="dr" aria-label="購物車">
+  <button class="x" data-a="close" aria-label="關閉購物車">✕</button>
+  <h2>購物車</h2>
+  <ul id="ci">
+    <li v-for="item in cartItems" :key="item.id">
+      <span class="sw" :data-c="item.c"></span>
+      <div><b>{{ item.n }}</b><br>{{ yen(item.pr) }}</div>
+      <div class="qt">
+        <button type="button" @click="changeQty(item.id, -1)" :aria-label="'減少' + item.n">−</button>
+        <input type="number" min="1" max="99" v-model.number="cart[item.id]" @change="fixQty(item.id)" :aria-label="item.n + '的數量'">
+        <button type="button" @click="changeQty(item.id, 1)" :aria-label="'增加' + item.n">＋</button>
+      </div>
+    </li>
+    <li class="empty" v-if="!cartItems.length">購物車是空的。到本周選物挑一件吧。</li>
+  </ul>
+  <p>小計：<strong>{{ yen(cartTotal) }}</strong></p>
+  <button class="btn" type="button" :disabled="!cartItems.length" @click="checkout">結帳</button>
+</dialog>
 <div id="ts" role="status"></div>
 
 <!-- 客服浮動聊天按鈕和窗口 -->
@@ -246,6 +271,7 @@ dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
 </section>
 
 
+<script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const L={w:'木藝',p:'陶藝',k:'編織'};
@@ -266,7 +292,7 @@ const A=[
 {id:'a3',n:'張憲平',c:'k',t:'從藺草世家跨進竹編，把日用竹器做成藝術品。',s:'張憲平出身藺草編織世家。1970年前後，因外銷竹編燈具的需求，他接手製作精緻竹藝品，當時連取材、劈剝竹子都得從頭摸索，卻就此走上竹籐編織的路。他以桂竹為主要素材，運用六角孔等編法，並獨創仿古髹塗技法，讓竹器帶有古器般的厚實質感。1990年獲民族藝術薪傳獎，1992至1994年連續三年獲民族工藝獎，2016年登錄為「竹籐編」保存者，後來也獲得國家工藝成就獎。',u:'https://themefile.culture.tw/ntcri/quarterly/files/e543fff5-5398-4b7d-b68a-5831bb7a1c95.pdf',src:'《工藝》季刊焦點人物報導'}];
 const byId=i=>P.find(p=>p.id==i),art=i=>A.find(a=>a.id==i),yen=n=>'NT$'+n.toLocaleString();
 const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-let fav=ld('fav',[]),cart=ld('cart',{}),tt;
+let fav=ld('fav',[]),tt;
 const toast=m=>{$('#ts').textContent=m;clearTimeout(tt);tt=setTimeout(()=>$('#ts').textContent='',2000)};
 const card=p=>`<article class="card"><button class="im" data-a="open" data-id="${p.id}" aria-label="查看${p.n}的材質與工法"><span class="sw" data-c="${p.c}"></span></button><div class="cb"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h3>${p.n}</h3><p class="pr">${yen(p.pr)}</p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div></article>`;
 $('#cz').innerHTML=CR.map(z=>`<article class="zone" id="${z.id}"><div class="zh"><span class="sw" data-c="${z.k}"></span><div><h2>${z.n}</h2><p class="lead">${z.d}</p></div></div><h3>品項</h3><ul class="items">${z.it.map(i=>`<li id="${i[0]}"><h4>${i[1]}</h4><p>${i[3]}</p></li>`).join('')}</ul><h3>展示重點</h3><dl class="focus">${z.f.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl><p><a href="#weekly">看相關作品</a>　<a href="#artisans/${z.a}">認識職人</a></p></article>`).join('');
@@ -278,27 +304,66 @@ if(i<3){q.innerHTML=`<p class="lead">第 ${i+1} 題，共 3 題</p><h3>${QS[i][0
 const sc=QS[0][1][Q[0]],st=QS[1][1][Q[1]],[lo,hi]=BR[Q[2]],inR=p=>p.pr>=lo&&p.pr<hi;let pool=P.filter(inR);const rx=pool.length<3;if(rx)pool=P;
 const r=pool.map(p=>({p,n:(p.sc.includes(sc)?1:0)+(p.st==st?1:0)})).sort((x,y)=>(y.n*2+inR(y.p))-(x.n*2+inR(x.p))||x.p.pr-y.p.pr).slice(0,3);
 q.innerHTML=`<h3>為你推薦</h3><p class="lead">${sc}、${st}、${QS[2][1][Q[2]]}${rx?'（符合的商品較少，已放寬預算）':''}</p><div class="grid">${r.map(x=>card(x.p)).join('')}</div><button class="lk" data-a="qr">重新作答</button>`}
-function cartui(){const ids=Object.keys(cart);$('#cn').textContent=ids.reduce((s,i)=>s+cart[i],0);$('#ci').innerHTML=ids.length?ids.map(i=>{const p=byId(i);return `<li><span class="sw" data-c="${p.c}"></span><div><b>${p.n}</b><br>${yen(p.pr)}</div><div class="qt"><button data-a="dec" data-id="${i}" aria-label="減少">−</button><span>${cart[i]}</span><button data-a="inc" data-id="${i}" aria-label="增加">＋</button></div></li>`}).join(''):'<li class="empty">購物車是空的。到本周選物挑一件吧。</li>';$('#ct').textContent=yen(ids.reduce((s,i)=>s+byId(i).pr*cart[i],0));$('#co').disabled=!ids.length}
-function draw(){$('#hw').innerHTML=P.filter(p=>p.wk).slice(0,3).map(card).join('');$('#wk').innerHTML=P.filter(p=>p.wk).map(card).join('');$('#fv').innerHTML=fav.length?fav.map(byId).map(card).join(''):'<p class="empty">還沒有收藏。點選商品上的愛心，就會收在這裡。</p>';quiz();cartui()}
+function draw(){$('#hw').innerHTML=P.filter(p=>p.wk).slice(0,3).map(card).join('');$('#wk').innerHTML=P.filter(p=>p.wk).map(card).join('');$('#fv').innerHTML=fav.length?fav.map(byId).map(card).join(''):'<p class="empty">還沒有收藏。點選商品上的愛心，就會收在這裡。</p>';quiz()}
 const SI=[...CR.flatMap(z=>[{n:z.n,k:'',t:z.id,c:z.k},...z.it.map(i=>({n:i[1],k:i[2],t:i[0],c:z.k}))]),...P.map(p=>({n:p.n,k:'',t:p.it,c:p.c}))];
-const q=$('#q'),sg=$('#sg');
-function sres(){const v=q.value.trim().toLowerCase();if(!v){sg.hidden=true;return[]}const r=SI.filter(x=>(x.n+x.k).toLowerCase().includes(v)).slice(0,6);sg.innerHTML=r.length?r.map(x=>`<li><button type="button" data-a="go" data-t="${x.t}">${x.n}　<small>${L[x.c]}</small></button></li>`).join(''):'<li style="padding:.5em">找不到相關商品。試試 <a href="#craft/wood">木藝</a>、<a href="#craft/pottery">陶藝</a>、<a href="#craft/weaving">編織</a></li>';sg.hidden=false;return r}
-function jump(t){sg.hidden=true;q.value='';const h='#craft/'+t;location.hash==h?go():location.hash=h}
-q.addEventListener('input',sres);$('#sf').addEventListener('submit',e=>{e.preventDefault();const r=sres();if(r[0])jump(r[0].t)});
-function go(){const[pg0,an]=location.hash.slice(1).split('/');const pg=$$('.pg').some(s=>s.id==pg0)?pg0:'home';sg.hidden=true;$$('.pg').forEach(s=>s.hidden=s.id!=pg);$$('.nv nav a').forEach(a=>a.getAttribute('href')=='#'+pg?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+// ===== Vue 3：搜尋框（ref + computed + v-model）=====
+const { createApp, ref, computed, watch } = Vue;
+const search = createApp({
+  setup() {
+    const keyword = ref('');   // ref：使用者輸入的關鍵字，v-model 綁在搜尋框
+    const open = ref(false);   // ref：是否顯示建議清單
+    // computed：關鍵字一改變，自動重新篩選出符合的項目
+    const results = computed(() => {
+      const v = keyword.value.trim().toLowerCase();
+      if (!v) return [];
+      return SI.filter(x => (x.n + x.k).toLowerCase().includes(v)).slice(0, 6);
+    });
+    function pick(r) { jump(r.t); }
+    function submit() { if (results.value[0]) pick(results.value[0]); }
+    return { keyword, open, results, pick, submit, L };
+  }
+}).mount('#searchApp');
+function jump(t){search.open=false;search.keyword='';const h='#craft/'+t;location.hash==h?go():location.hash=h}
+
+// ===== Vue 3：購物車（ref + computed + v-model）=====
+const cart = ref(ld('cart', {}));   // ref：{ 商品id: 數量 }
+// computed：由 cart 自動算出的資料，cart 一變就跟著更新
+const cartItems = computed(() =>
+  Object.keys(cart.value).filter(id => byId(id)).map(id => ({ ...byId(id), qty: Number(cart.value[id]) || 0 }))
+);
+const cartCount = computed(() => cartItems.value.reduce((sum, i) => sum + i.qty, 0));
+const cartTotal = computed(() => cartItems.value.reduce((sum, i) => sum + i.pr * i.qty, 0));
+watch(cart, v => sv('cart', v), { deep: true });   // 數量一變就存進 localStorage
+
+function addToCart(id) { cart.value[id] = Math.min((Number(cart.value[id]) || 0) + 1, 99); toast('已加入購物車'); }
+function changeQty(id, d) {
+  const n = (Number(cart.value[id]) || 0) + d;
+  if (n < 1) delete cart.value[id]; else cart.value[id] = Math.min(n, 99);
+}
+function fixQty(id) {   // v-model 輸入框離開時，把空白、0、小數整理成合理數量
+  const n = Math.floor(Number(cart.value[id]));
+  cart.value[id] = n >= 1 ? Math.min(n, 99) : 1;
+}
+function checkout() {
+  $('#purpose').value = '詢問商品：' + cartItems.value.map(i => i.n + '×' + i.qty).join('、');
+  $('#dr').close();
+  location.hash = '#contact';
+}
+createApp({ setup() { return { cartCount }; } }).mount('#cartBtn');                                   // 頁首按鈕的數量
+createApp({ setup() { return { cart, cartItems, cartTotal, changeQty, fixQty, checkout, yen }; } }).mount('#dr');   // 購物車抽屜
+function go(){const[pg0,an]=location.hash.slice(1).split('/');const pg=$$('.pg').some(s=>s.id==pg0)?pg0:'home';$$('.pg').forEach(s=>s.hidden=s.id!=pg);$$('.nv nav a').forEach(a=>a.getAttribute('href')=='#'+pg?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
 const el=an&&document.getElementById(an);if(el){if(pg=='artisans')story(an,true);el.scrollIntoView();el.classList.add('hl');setTimeout(()=>el.classList.remove('hl'),2200)}else scrollTo(0,0)}
 addEventListener('hashchange',go);
-document.addEventListener('click',e=>{if(!e.target.closest('#sf'))sg.hidden=true;const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
+document.addEventListener('click',e=>{if(!e.target.closest('#sf'))search.open=false;const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
 if(a=='fav'){const on=!fav.includes(id);fav=on?[...fav,id]:fav.filter(x=>x!=id);sv('fav',fav);b.setAttribute('aria-pressed',on);b.textContent=on?'♥':'♡';draw()}
-else if(a=='add'){cart[id]=(cart[id]||0)+1;sv('cart',cart);cartui();toast('已加入購物車')}
-else if(a=='inc'||a=='dec'){cart[id]+=a=='inc'?1:-1;if(cart[id]<1)delete cart[id];sv('cart',cart);cartui()}
+else if(a=='add')addToCart(id);
 else if(a=='cart')$('#dr').showModal();
 else if(a=='close')b.closest('dialog').close();
 else if(a=='open'){const p=byId(id),z=CR.find(z=>z.k==p.c);$('#mb').innerHTML=`<span class="sw" data-c="${p.c}"></span><div class="mt"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h2>${p.n}</h2><p class="pr">${yen(p.pr)}</p><dl><dt>材質</dt><dd>${p.m}</dd><dt>工法</dt><dd>${p.t}</dd><dt>特色</dt><dd>${p.f}</dd></dl><p><a data-a="close" href="#artisans/${p.a}">認識職人 ${art(p.a).n}</a><br><a data-a="close" href="#craft/${p.it}">了解${z.n}</a></p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div>`;$('#md').showModal()}
 else if(a=='story')story(b.dataset.id,b.getAttribute('aria-expanded')!='true');
 else if(a=='qa'){Q.push(+b.dataset.v);quiz()}else if(a=='qb'){Q.pop();quiz()}else if(a=='qr'){Q=[];quiz()}
 else if(a=='go')jump(b.dataset.t);
-else if(a=='co'){$('#purpose').value='詢問商品：'+Object.keys(cart).map(i=>byId(i).n+'×'+cart[i]).join('、');$('#dr').close();location.hash='#contact'}});
+});
 $$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target==d)d.close()}));
 $('#cf').addEventListener('submit',e=>{e.preventDefault();let first;['name','email'].forEach(k=>{const i=$('#'+k),bad=!i.checkValidity();$('#e-'+k).textContent=bad?(i.validity.valueMissing?(k=='name'?'請填寫姓名。':'請填寫 email。'):'請輸入有效的 email，例如 name@example.com。'):'';i.setAttribute('aria-invalid',bad);if(bad&&!first)first=i});
 if(first){first.focus();$('#cs').textContent='';return}$('#cs').textContent='已收到你的訊息。預覽版不會實際寄出，正式版會送到店家信箱。';e.target.reset()});
