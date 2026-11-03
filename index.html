@@ -93,7 +93,8 @@ footer{border-top:1px solid var(--ln);background:var(--sf)}
 address{font-style:normal}.ft ul{list-style:none;padding:0;margin:0}
 #ts{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.5em 1em;border-radius:4px;z-index:20}
 #ts:empty{display:none}
-@media(max-width:720px){.hero,.ar,#mb{grid-template-columns:1fr}.zh{grid-template-columns:80px 1fr}.trio .sw{height:160px}.top{flex-wrap:wrap}}
+@media(max-width:768px){.hero,.ar,#mb{grid-template-columns:1fr}.grid,.items,.focus{grid-template-columns:1fr}.zh{grid-template-columns:80px 1fr}.trio .sw{height:160px}.top{flex-wrap:wrap}}
+.er.ok{color:color-mix(in srgb,var(--k) 55%,var(--ink))}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 h1,h2,h3,h4,.logo,.trio a{font-family:"Chiron GoRound TC","Noto Sans TC",sans-serif;font-weight:700}
 .btn,.cbt,.opt{border-radius:999px}
@@ -189,7 +190,7 @@ dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
       <a href="#craft/weaving"><span class="sw" data-c="k"></span>編織</a>
     </div>
   </div>
-  <div class="wrap"><h2>本周選物</h2><div class="grid" id="hw"></div><p><a href="#weekly">看全部本周選物</a></p></div>
+  <div class="wrap"><h2>本周選物</h2><div class="grid" id="hw"><product-card v-for="p in hwList" :key="p.id" :p="p" :faved="favs.includes(p.id)"></product-card></div><p><a href="#weekly">看全部本周選物</a></p></div>
   <div class="wrap cta"><h2>想先來店裡看看？</h2><p style="margin-inline:auto">留下聯絡方式與方便的時段，我們會與你確認。</p><a class="btn" href="#contact">預約聯絡</a></div>
 </section>
 
@@ -200,22 +201,35 @@ dialog{border-radius:28px;overflow:hidden}dialog.dr{border-radius:28px 0 0 28px}
 <section class="pg" id="weekly" hidden>
   <div class="wrap">
     <h1>本周選物</h1><p class="lead">點擊商品圖片，查看材質、工法與特色。</p>
-    <h2>本周精選</h2><div class="grid" id="wk"></div>
-    <h2>我的收藏</h2><div class="grid" id="fv"></div>
-    <h2>個人化選物推薦</h2><div class="quiz" id="qz"></div>
+    <h2>本周精選</h2><div class="grid" id="wk"><product-card v-for="p in wkList" :key="p.id" :p="p" :faved="favs.includes(p.id)"></product-card></div>
+    <h2>我的收藏</h2><div class="grid" id="fv"><product-card v-for="p in favList" :key="p.id" :p="p" :faved="favs.includes(p.id)"></product-card><p class="empty" v-if="!favList.length">還沒有收藏。點選商品上的愛心，就會收在這裡。</p></div>
+    <h2>個人化選物推薦</h2><div class="quiz" id="qz">
+      <template v-if="step < 3">
+        <p class="lead">第 {{ step + 1 }} 題，共 3 題</p>
+        <h3>{{ QS[step][0] }}</h3>
+        <div class="opts"><button class="opt" v-for="(o, j) in QS[step][1]" :key="o" @click="answer(j)">{{ o }}</button></div>
+        <button class="lk" v-if="step > 0" @click="back">上一題</button>
+      </template>
+      <template v-else>
+        <h3>為你推薦</h3>
+        <p class="lead">{{ result.summary }}</p>
+        <div class="grid"><product-card v-for="p in result.picks" :key="p.id" :p="p" :faved="favs.includes(p.id)"></product-card></div>
+        <button class="lk" @click="restart">重新作答</button>
+      </template>
+    </div>
   </div>
 </section>
 
 <section class="pg" id="artisans" hidden>
-  <div class="wrap"><h1>職人故事區</h1><p class="lead">每件器物背後，都有一雙手。</p><div id="al"></div></div>
+  <div class="wrap"><h1>職人故事區</h1><p class="lead">每件器物背後，都有一雙手。</p><div id="al"><artisan-card v-for="a in artisans" :key="a.id" :a="a" :open="openIds.includes(a.id)" @toggle="toggleStory"></artisan-card></div></div>
 </section>
 
 <section class="pg" id="contact" hidden>
   <div class="wrap">
     <h1>聯絡我們</h1><p class="lead">留下資料，我們會以 email 回覆。</p>
     <form id="cf" class="fm" novalidate>
-      <div><label for="name">姓名 <span class="req">必填</span></label><input id="name" name="name" type="text" autocomplete="name" required aria-describedby="e-name"><p class="er" id="e-name"></p></div>
-      <div><label for="email">Email <span class="req">必填</span></label><input id="email" name="email" type="email" autocomplete="email" required aria-describedby="e-email"><p class="er" id="e-email"></p></div>
+      <div><label for="name">姓名 <span class="req">必填</span></label><input id="name" name="name" type="text" autocomplete="name" required aria-describedby="e-name"><p class="er" id="e-name" aria-live="polite"></p></div>
+      <div><label for="email">Email <span class="req">必填</span></label><input id="email" name="email" type="email" autocomplete="email" required aria-describedby="e-email"><p class="er" id="e-email" aria-live="polite"></p></div>
       <div><label for="vt">預約時間</label><select id="vt" name="visit-time"><option value="">請選擇</option><option>平日上午</option><option>平日下午</option><option>假日上午</option><option>假日下午</option></select></div>
       <div><label for="purpose">聯絡目的</label><input id="purpose" name="purpose" type="text"></div>
       <div><button class="btn" type="submit">送出訊息</button></div>
@@ -292,19 +306,23 @@ const A=[
 {id:'a3',n:'張憲平',c:'k',t:'從藺草世家跨進竹編，把日用竹器做成藝術品。',s:'張憲平出身藺草編織世家。1970年前後，因外銷竹編燈具的需求，他接手製作精緻竹藝品，當時連取材、劈剝竹子都得從頭摸索，卻就此走上竹籐編織的路。他以桂竹為主要素材，運用六角孔等編法，並獨創仿古髹塗技法，讓竹器帶有古器般的厚實質感。1990年獲民族藝術薪傳獎，1992至1994年連續三年獲民族工藝獎，2016年登錄為「竹籐編」保存者，後來也獲得國家工藝成就獎。',u:'https://themefile.culture.tw/ntcri/quarterly/files/e543fff5-5398-4b7d-b68a-5831bb7a1c95.pdf',src:'《工藝》季刊焦點人物報導'}];
 const byId=i=>P.find(p=>p.id==i),art=i=>A.find(a=>a.id==i),yen=n=>'NT$'+n.toLocaleString();
 const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-let fav=ld('fav',[]),tt;
+let tt;
 const toast=m=>{$('#ts').textContent=m;clearTimeout(tt);tt=setTimeout(()=>$('#ts').textContent='',2000)};
-const card=p=>`<article class="card"><button class="im" data-a="open" data-id="${p.id}" aria-label="查看${p.n}的材質與工法"><span class="sw" data-c="${p.c}"></span></button><div class="cb"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h3>${p.n}</h3><p class="pr">${yen(p.pr)}</p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div></article>`;
+// ===== Vue 3 元件：商品卡片 ProductCard（props：p 商品資料、faved 是否已收藏）=====
+const ProductCard = {
+  props: { p: { type: Object, required: true }, faved: { type: Boolean, default: false } },
+  setup() { return { L, yen }; },
+  template: `<article class="card"><button class="im" data-a="open" :data-id="p.id" :aria-label="'查看' + p.n + '的材質與工法'"><span class="sw" :data-c="p.c"></span></button><div class="cb"><span class="tag" :data-c="p.c">{{ L[p.c] }}</span><h3>{{ p.n }}</h3><p class="pr">{{ yen(p.pr) }}</p><div class="ac"><button class="hb" data-a="fav" :data-id="p.id" :aria-pressed="faved ? 'true' : 'false'" :aria-label="'收藏' + p.n">{{ faved ? '♥' : '♡' }}</button><button class="btn sm" data-a="add" :data-id="p.id">加入購物車</button></div></div></article>`
+};
+// ===== Vue 3 元件：職人卡片 ArtisanCard（props：a 職人資料、open 是否展開；emit：toggle）=====
+const ArtisanCard = {
+  props: { a: { type: Object, required: true }, open: { type: Boolean, default: false } },
+  emits: ['toggle'],
+  setup() { return { L, craftId: c => CR.find(z => z.k == c).id }; },
+  template: `<article class="ar" :id="a.id"><span class="sw" :data-c="a.c"></span><div><span class="tag" :data-c="a.c">{{ L[a.c] }}</span><h2>{{ a.n }}</h2><p>{{ a.t }}</p><button class="btn sm" @click="$emit('toggle', a.id)" :aria-expanded="open ? 'true' : 'false'" :aria-controls="'s-' + a.id">{{ open ? '收合故事' : '閱讀完整故事' }}</button><div class="story" :id="'s-' + a.id" :hidden="!open"><p>{{ a.s }}</p><p class="lead">資料來源：<a :href="a.u" target="_blank" rel="noopener">{{ a.src }}</a></p><p><a href="#weekly">看他的作品</a>　<a :href="'#craft/' + craftId(a.c)">了解{{ L[a.c] }}</a></p></div></div></article>`
+};
 $('#cz').innerHTML=CR.map(z=>`<article class="zone" id="${z.id}"><div class="zh"><span class="sw" data-c="${z.k}"></span><div><h2>${z.n}</h2><p class="lead">${z.d}</p></div></div><h3>品項</h3><ul class="items">${z.it.map(i=>`<li id="${i[0]}"><h4>${i[1]}</h4><p>${i[3]}</p></li>`).join('')}</ul><h3>展示重點</h3><dl class="focus">${z.f.map(f=>`<div><dt>${f[0]}</dt><dd>${f[1]}</dd></div>`).join('')}</dl><p><a href="#weekly">看相關作品</a>　<a href="#artisans/${z.a}">認識職人</a></p></article>`).join('');
-$('#al').innerHTML=A.map(a=>`<article class="ar" id="${a.id}"><span class="sw" data-c="${a.c}"></span><div><span class="tag" data-c="${a.c}">${L[a.c]}</span><h2>${a.n}</h2><p>${a.t}</p><button class="btn sm" data-a="story" data-id="${a.id}" aria-expanded="false" aria-controls="s-${a.id}">閱讀完整故事</button><div class="story" id="s-${a.id}" hidden><p>${a.s}</p><p class="lead">資料來源：<a href="${a.u}" target="_blank" rel="noopener">${a.src}</a></p><p><a href="#weekly">看他的作品</a>　<a href="#craft/${CR.find(z=>z.k==a.c).id}">了解${L[a.c]}</a></p></div></div></article>`).join('');
-function story(id,on){const b=$(`[aria-controls=s-${id}]`);$('#s-'+id).hidden=!on;b.setAttribute('aria-expanded',on);b.textContent=on?'收合故事':'閱讀完整故事'}
-const QS=[['這件器物主要用在哪裡？',['實用','裝飾','送禮']],['喜歡哪一種風格？',['簡約日式','溫潤自然','質樸手作']],['預算大約多少？',['NT$500 以下','NT$500–1,500','NT$1,500–3,000','NT$3,000 以上']]],BR=[[0,500],[500,1500],[1500,3000],[3000,1e9]];let Q=[];
-function quiz(){const i=Q.length,q=$('#qz');
-if(i<3){q.innerHTML=`<p class="lead">第 ${i+1} 題，共 3 題</p><h3>${QS[i][0]}</h3><div class="opts">${QS[i][1].map((o,j)=>`<button class="opt" data-a="qa" data-v="${j}">${o}</button>`).join('')}</div>${i?'<button class="lk" data-a="qb">上一題</button>':''}`;return}
-const sc=QS[0][1][Q[0]],st=QS[1][1][Q[1]],[lo,hi]=BR[Q[2]],inR=p=>p.pr>=lo&&p.pr<hi;let pool=P.filter(inR);const rx=pool.length<3;if(rx)pool=P;
-const r=pool.map(p=>({p,n:(p.sc.includes(sc)?1:0)+(p.st==st?1:0)})).sort((x,y)=>(y.n*2+inR(y.p))-(x.n*2+inR(x.p))||x.p.pr-y.p.pr).slice(0,3);
-q.innerHTML=`<h3>為你推薦</h3><p class="lead">${sc}、${st}、${QS[2][1][Q[2]]}${rx?'（符合的商品較少，已放寬預算）':''}</p><div class="grid">${r.map(x=>card(x.p)).join('')}</div><button class="lk" data-a="qr">重新作答</button>`}
-function draw(){$('#hw').innerHTML=P.filter(p=>p.wk).slice(0,3).map(card).join('');$('#wk').innerHTML=P.filter(p=>p.wk).map(card).join('');$('#fv').innerHTML=fav.length?fav.map(byId).map(card).join(''):'<p class="empty">還沒有收藏。點選商品上的愛心，就會收在這裡。</p>';quiz()}
+const QS=[['這件器物主要用在哪裡？',['實用','裝飾','送禮']],['喜歡哪一種風格？',['簡約日式','溫潤自然','質樸手作']],['預算大約多少？',['NT$500 以下','NT$500–1,500','NT$1,500–3,000','NT$3,000 以上']]],BR=[[0,500],[500,1500],[1500,3000],[3000,1e9]];
 const SI=[...CR.flatMap(z=>[{n:z.n,k:'',t:z.id,c:z.k},...z.it.map(i=>({n:i[1],k:i[2],t:i[0],c:z.k}))]),...P.map(p=>({n:p.n,k:'',t:p.it,c:p.c}))];
 // ===== Vue 3：搜尋框（ref + computed + v-model）=====
 const { createApp, ref, computed, watch } = Vue;
@@ -351,23 +369,72 @@ function checkout() {
 }
 createApp({ setup() { return { cartCount }; } }).mount('#cartBtn');                                   // 頁首按鈕的數量
 createApp({ setup() { return { cart, cartItems, cartTotal, changeQty, fixQty, checkout, yen }; } }).mount('#dr');   // 購物車抽屜
+// ===== Vue 3：元件化組裝（ref 狀態 + props 傳入資料）=====
+const favs = ref(ld('fav', []));   // ref：收藏的商品 id，所有商品卡片共用
+watch(favs, v => sv('fav', v), { deep: true });
+function toggleFav(id) { favs.value = favs.value.includes(id) ? favs.value.filter(x => x !== id) : [...favs.value, id]; }
+const openIds = ref([]);           // ref：目前展開的職人故事
+function story(id, on) { const s = openIds.value; openIds.value = on ? (s.includes(id) ? s : [...s, id]) : s.filter(x => x !== id); }
+function toggleStory(id) { story(id, !openIds.value.includes(id)); }
+function mountApp(sel, setup) {
+  const app = createApp({ setup });
+  app.component('ProductCard', ProductCard);   // 註冊元件，模板裡就能用 <product-card>
+  app.component('ArtisanCard', ArtisanCard);
+  return app.mount(sel);
+}
+mountApp('#hw', () => ({ favs, hwList: P.filter(p => p.wk).slice(0, 3) }));
+mountApp('#wk', () => ({ favs, wkList: P.filter(p => p.wk) }));
+mountApp('#fv', () => ({ favs, favList: computed(() => favs.value.map(byId).filter(Boolean)) }));
+mountApp('#al', () => ({ artisans: A, openIds, toggleStory }));
+mountApp('#qz', () => {            // 個人化推薦問答：三題答完後用商品卡片元件顯示結果
+  const answers = ref([]);
+  const step = computed(() => answers.value.length);
+  const result = computed(() => {
+    if (answers.value.length < 3) return null;
+    const [s, t, b] = answers.value, sc = QS[0][1][s], st = QS[1][1][t], [lo, hi] = BR[b];
+    const inR = p => p.pr >= lo && p.pr < hi;
+    let pool = P.filter(inR); const relaxed = pool.length < 3; if (relaxed) pool = P;
+    const picks = pool.map(p => ({ p, n: (p.sc.includes(sc) ? 1 : 0) + (p.st == st ? 1 : 0) }))
+      .sort((x, y) => (y.n * 2 + inR(y.p)) - (x.n * 2 + inR(x.p)) || x.p.pr - y.p.pr).slice(0, 3).map(x => x.p);
+    return { picks, summary: `${sc}、${st}、${QS[2][1][b]}${relaxed ? '（符合的商品較少，已放寬預算）' : ''}` };
+  });
+  return { QS, favs, step, result, answer: j => answers.value.push(j), back: () => answers.value.pop(), restart: () => { answers.value = []; } };
+});
 function go(){const[pg0,an]=location.hash.slice(1).split('/');const pg=$$('.pg').some(s=>s.id==pg0)?pg0:'home';$$('.pg').forEach(s=>s.hidden=s.id!=pg);$$('.nv nav a').forEach(a=>a.getAttribute('href')=='#'+pg?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
 const el=an&&document.getElementById(an);if(el){if(pg=='artisans')story(an,true);el.scrollIntoView();el.classList.add('hl');setTimeout(()=>el.classList.remove('hl'),2200)}else scrollTo(0,0)}
 addEventListener('hashchange',go);
 document.addEventListener('click',e=>{if(!e.target.closest('#sf'))search.open=false;const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
-if(a=='fav'){const on=!fav.includes(id);fav=on?[...fav,id]:fav.filter(x=>x!=id);sv('fav',fav);b.setAttribute('aria-pressed',on);b.textContent=on?'♥':'♡';draw()}
+if(a=='fav'){toggleFav(id);if(b.closest('#mb')){const on=favs.value.includes(id);b.setAttribute('aria-pressed',on);b.textContent=on?'♥':'♡'}}
 else if(a=='add')addToCart(id);
 else if(a=='cart')$('#dr').showModal();
 else if(a=='close')b.closest('dialog').close();
-else if(a=='open'){const p=byId(id),z=CR.find(z=>z.k==p.c);$('#mb').innerHTML=`<span class="sw" data-c="${p.c}"></span><div class="mt"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h2>${p.n}</h2><p class="pr">${yen(p.pr)}</p><dl><dt>材質</dt><dd>${p.m}</dd><dt>工法</dt><dd>${p.t}</dd><dt>特色</dt><dd>${p.f}</dd></dl><p><a data-a="close" href="#artisans/${p.a}">認識職人 ${art(p.a).n}</a><br><a data-a="close" href="#craft/${p.it}">了解${z.n}</a></p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${fav.includes(p.id)}" aria-label="收藏${p.n}">${fav.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div>`;$('#md').showModal()}
-else if(a=='story')story(b.dataset.id,b.getAttribute('aria-expanded')!='true');
-else if(a=='qa'){Q.push(+b.dataset.v);quiz()}else if(a=='qb'){Q.pop();quiz()}else if(a=='qr'){Q=[];quiz()}
+else if(a=='open'){const p=byId(id),z=CR.find(z=>z.k==p.c);$('#mb').innerHTML=`<span class="sw" data-c="${p.c}"></span><div class="mt"><span class="tag" data-c="${p.c}">${L[p.c]}</span><h2>${p.n}</h2><p class="pr">${yen(p.pr)}</p><dl><dt>材質</dt><dd>${p.m}</dd><dt>工法</dt><dd>${p.t}</dd><dt>特色</dt><dd>${p.f}</dd></dl><p><a data-a="close" href="#artisans/${p.a}">認識職人 ${art(p.a).n}</a><br><a data-a="close" href="#craft/${p.it}">了解${z.n}</a></p><div class="ac"><button class="hb" data-a="fav" data-id="${p.id}" aria-pressed="${favs.value.includes(p.id)}" aria-label="收藏${p.n}">${favs.value.includes(p.id)?'♥':'♡'}</button><button class="btn sm" data-a="add" data-id="${p.id}">加入購物車</button></div></div>`;$('#md').showModal()}
 else if(a=='go')jump(b.dataset.t);
 });
 $$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target==d)d.close()}));
-$('#cf').addEventListener('submit',e=>{e.preventDefault();let first;['name','email'].forEach(k=>{const i=$('#'+k),bad=!i.checkValidity();$('#e-'+k).textContent=bad?(i.validity.valueMissing?(k=='name'?'請填寫姓名。':'請填寫 email。'):'請輸入有效的 email，例如 name@example.com。'):'';i.setAttribute('aria-invalid',bad);if(bad&&!first)first=i});
-if(first){first.focus();$('#cs').textContent='';return}$('#cs').textContent='已收到你的訊息。預覽版不會實際寄出，正式版會送到店家信箱。';e.target.reset()});
-draw();go();
+// ===== 表單驗證：Email／姓名在輸入與離開欄位時即時提示，送出時再整體檢查 =====
+const VMSG={name:{valueMissing:'請填寫姓名。'},email:{valueMissing:'請填寫 email。',typeMismatch:'請輸入有效的 email，例如 name@example.com。'}};
+function checkField(k){
+  const i=$('#'+k),m=$('#e-'+k),ok=i.checkValidity();
+  m.className='er'+(ok&&i.value&&k=='email'?' ok':'');
+  m.textContent=ok?(i.value&&k=='email'?'✓ Email 格式正確':''):(i.validity.valueMissing?VMSG[k].valueMissing:VMSG[k].typeMismatch);
+  i.setAttribute('aria-invalid',String(!ok));
+  return ok;
+}
+['name','email'].forEach(k=>{
+  const i=$('#'+k);
+  i.addEventListener('input',()=>{if(i.value||i.hasAttribute('aria-invalid'))checkField(k)});   // 即時
+  i.addEventListener('blur',()=>checkField(k));
+});
+$('#cf').addEventListener('submit',e=>{
+  e.preventDefault();
+  const bad=['name','email'].filter(k=>!checkField(k));
+  if(bad.length){$('#'+bad[0]).focus();$('#cs').textContent='';return}
+  $('#cs').textContent='已收到你的訊息。預覽版不會實際寄出，正式版會送到店家信箱。';   // 按鈕點擊事件：顯示送出成功訊息
+  e.target.reset();
+  ['name','email'].forEach(k=>{$('#e-'+k).textContent='';$('#e-'+k).className='er';$('#'+k).removeAttribute('aria-invalid')});
+});
+go();
 
   // 客服聊天 Widget：前端關鍵字模擬回覆，尚未連接真人客服或後端 AI
   (() => {
