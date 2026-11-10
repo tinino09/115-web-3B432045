@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>臺灣城市空氣品質</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f3f4f6;
+      color: #1f2937;
+      padding: 24px 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 1.875rem;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      max-width: 900px;
+      width: 100%;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    select, button {
+      padding: 8px 16px;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      border: 1px solid #d1d5db;
+      background-color: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    button:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+    .time-tag {
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+    
+    /* 檢核點：斷網/錯誤時顯示紅字 */
+    .error-box {
+      color: #dc2626;
+      font-weight: bold;
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 16px 24px;
+      border-radius: 8px;
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    /* 卡片網格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      width: 100%;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-top: 6px solid #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .city-name {
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+    .aqi-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.85rem;
+    }
+    .aqi-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 8px 0 4px 0;
+      line-height: 1;
+    }
+    .aqi-status {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .pollutants {
+      display: flex;
+      gap: 16px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 0.875rem;
+    }
+    .pollutant-item span {
+      font-weight: 600;
+      color: #334155;
+    }
+    .advice {
+      font-size: 0.85rem;
+      color: #475569;
+      line-height: 1.4;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+    }
+
+    /* 頁尾出處與宣告 */
+    footer {
+      max-width: 900px;
+      width: 100%;
+      background: #ffffff;
+      padding: 16px 20px;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+      font-size: 0.875rem;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    footer a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    .warning-text {
+      color: #b45309;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>臺灣城市空氣品質監測</h1>
+    <p class="subtitle">即時美規 AQI 指數與懸浮微粒觀測</p>
+  </header>
+
+  <div class="controls">
+    <div class="control-group">
+      <label for="sort-select">排序方式：</label>
+      <select id="sort-select">
+        <option value="default">預設（依輸入順序）</option>
+        <option value="aqi-desc">AQI 由高到低</option>
+        <option value="aqi-asc">AQI 由低到高</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <span class="time-tag" id="update-time">資料時間：載入中...</span>
+      <button id="refresh-btn">重新整理</button>
+    </div>
+  </div>
+
+  <!-- 斷網/錯誤紅字提示區域 -->
+  <div id="error-box" class="error-box"></div>
+
+  <!-- 8 城市卡片容器 -->
+  <div class="grid" id="city-grid"></div>
+
+  <footer>
+    <p><strong>安全提醒：</strong><span class="warning-text">這是模式推估值，不是測站實測值，相鄰城市可能相同。</span></p>
+    <p><strong>對照差異說明：</strong>Open-Meteo 使用歐洲 CAMS 全球大氣數值模式推估預測，而臺灣環境部監測網為在地實體測站即時實測值，故兩者數據可能存在差異。</p>
+    <p style="margin-top: 6px;">來源：<a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener noreferrer">Open-Meteo 空氣品質說明</a> | Open-Meteo (2026) ; CAMS 模式推估，非環境部測站實測</p>
+  </footer>
+
+  <script>
+    // 8 個指定城市座標（預設輸入順序）
+    const CITIES = [
+      { name: '臺北', lat: 25.0330, lon: 121.5654 },
+      { name: '桃園', lat: 24.9936, lon: 121.3010 },
+      { name: '新竹', lat: 24.8138, lon: 120.9675 },
+      { name: '臺中', lat: 24.1477, lon: 120.6736 },
+      { name: '嘉義', lat: 23.4800, lon: 120.4491 },
+      { name: '臺南', lat: 22.9997, lon: 120.2270 },
+      { name: '高雄', lat: 22.6273, lon: 120.3014 },
+      { name: '花蓮', lat: 23.9871, lon: 121.6015 }
+    ];
+
+    let currentCityData = [];
+
+    // 美國 EPA AQI 6 級分級與建議
+    function getAqiLevel(aqi) {
+      if (aqi === null || aqi === undefined || isNaN(aqi)) {
+        return { status: '無資料', color: '#6b7280', advice: '暫無空氣品質資料。' };
+      }
+      if (aqi <= 50) {
+        return { status: '良好', color: '#10b981', advice: '空氣品質令人滿意，基本無空氣污染。' };
+      } else if (aqi <= 100) {
+        return { status: '普通', color: '#f59e0b', advice: '極少數極度敏感族群應減少戶外劇烈運動。' };
+      } else if (aqi <= 150) {
+        return { status: '對敏感族群不健康', color: '#f97316', advice: '敏感族群應減少體力消耗與戶外活動。' };
+      } else if (aqi <= 200) {
+        return { status: '對所有族群不健康', color: '#ef4444', advice: '所有民眾應減少戶外活動，外出請佩戴口罩。' };
+      } else if (aqi <= 300) {
+        return { status: '非常不健康', color: '#8b5cf6', advice: '應避免戶外活動，敏感族群留在室內。' };
+      } else {
+        return { status: '危害', color: '#881337', advice: '緊急警報：所有族群應留在室內並關閉門窗。' };
+      }
+    }
+
+    // 單一城市的多重端點 Fetch 邏輯
+    async function fetchSingleCity(city) {
+      const urls = [
+        // 1. 首選：作業指定之 current 端點
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}¤t=us_aqi,pm2_5,pm10&timezone=Asia/Taipei`,
+        // 2. 備用：hourly 逐時端點 (容錯率高)
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}&hourly=us_aqi,pm2_5,pm10&timezone=Asia/Taipei`,
+        // 3. 備用：不帶時區參數端點
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${city.lat}&longitude=${city.lon}&hourly=us_aqi,pm2_5,pm10`
+      ];
+
+      let lastErr = null;
+
+      for (const url of urls) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) {
+            let detail = `HTTP ${res.status}`;
+            try {
+              const errJson = await res.json();
+              if (errJson && errJson.reason) detail += ` (${errJson.reason})`;
+            } catch(e) {}
+            throw new Error(detail);
+          }
+
+          const data = await res.json();
+          let aqi = null, pm25 = null, pm10 = null;
+
+          // 解析 current 資料
+          if (data.current && data.current.us_aqi !== undefined) {
+            aqi = data.current.us_aqi;
+            pm25 = data.current.pm2_5;
+            pm10 = data.current.pm10;
+          } 
+          // 解析 hourly 最新一筆資料
+          else if (data.hourly && data.hourly.us_aqi && data.hourly.us_aqi.length > 0) {
+            const arr = data.hourly.us_aqi;
+            for (let i = arr.length - 1; i >= 0; i--) {
+              if (arr[i] !== null && arr[i] !== undefined) {
+                aqi = arr[i];
+                pm25 = data.hourly.pm2_5 ? data.hourly.pm2_5[i] : null;
+                pm10 = data.hourly.pm10 ? data.hourly.pm10[i] : null;
+                break;
+              }
+            }
+          }
+
+          if (aqi !== null && aqi !== undefined) {
+            return {
+              name: city.name,
+              aqi: Math.round(aqi),
+              pm25: pm25 !== null ? Number(pm25.toFixed(1)) : '--',
+              pm10: pm10 !== null ? Number(pm10.toFixed(1)) : '--'
+            };
+          }
+        } catch (err) {
+          lastErr = err;
+        }
+      }
+
+      throw lastErr || new Error('連線失敗');
+    }
+
+    // 主要執行函式
+    async function fetchAirQualityData() {
+      const gridEl = document.getElementById('city-grid');
+      const errorBox = document.getElementById('error-box');
+      const timeEl = document.getElementById('update-time');
+      const refreshBtn = document.getElementById('refresh-btn');
+
+      // 1. 重設 UI
+      errorBox.style.display = 'none';
+      errorBox.textContent = '';
+      refreshBtn.disabled = true;
+      timeEl.textContent = '資料時間：載入中...';
+
+      gridEl.innerHTML = CITIES.map(c => `
+        <div class="card" style="opacity: 0.6;">
+          <div class="card-header"><span class="city-name">${c.name}</span><span>載入中...</span></div>
+          <div class="aqi-value">--</div>
+          <p class="aqi-status">資料讀取中...</p>
+        </div>
+      `).join('');
+
+      try {
+        // 2. 並行抓取 8 個城市
+        const promises = CITIES.map(city => fetchSingleCity(city));
+        currentCityData = await Promise.all(promises);
+
+        // 3. 更新時間
+        const now = new Date();
+        timeEl.textContent = `資料時間：${now.toLocaleString('zh-TW', { hour12: false })}`;
+
+        // 4. 渲染畫面
+        renderCards();
+
+      } catch (err) {
+        console.error('Fetch 失敗:', err);
+        // 檢核點：失敗或斷網時顯示紅字
+        errorBox.style.display = 'block';
+        errorBox.textContent = `⚠️ 載入失敗：無法取得空氣品質資料，請檢查網路連線後重試。（${err.message || '連線錯誤'}）`;
+        gridEl.innerHTML = '';
+        timeEl.textContent = '資料時間：更新失敗';
+      } finally {
+        refreshBtn.disabled = false;
+      }
+    }
+
+    // 依選擇的排序方式繪製畫面
+    function renderCards() {
+      const gridEl = document.getElementById('city-grid');
+      const sortValue = document.getElementById('sort-select').value;
+
+      let displayData = [...currentCityData];
+
+      if (sortValue === 'aqi-desc') {
+        displayData.sort((a, b) => (b.aqi ?? 0) - (a.aqi ?? 0));
+      } else if (sortValue === 'aqi-asc') {
+        displayData.sort((a, b) => (a.aqi ?? 0) - (b.aqi ?? 0));
+      }
+
+      gridEl.innerHTML = displayData.map(data => {
+        const info = getAqiLevel(data.aqi);
+        return `
+          <div class="card" style="border-top-color: ${info.color}">
+            <div>
+              <div class="card-header">
+                <span class="city-name">${data.name}</span>
+                <span class="aqi-badge" style="background-color: ${info.color}">${info.status}</span>
+              </div>
+              <div class="aqi-value" style="color: ${info.color}">${data.aqi ?? '--'}</div>
+              <div class="aqi-status" style="color: ${info.color}">AQI 指數</div>
+              <div class="pollutants">
+                <div class="pollutant-item">PM2.5: <span>${data.pm25 ?? '--'}</span> μg/m³</div>
+                <div class="pollutant-item">PM10: <span>${data.pm10 ?? '--'}</span> μg/m³</div>
+              </div>
+            </div>
+            <div class="advice">💡 建議：${info.advice}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('refresh-btn').addEventListener('click', fetchAirQualityData);
+    document.getElementById('sort-select').addEventListener('change', renderCards);
+
+    // 頁面開啟時自動執行
+    fetchAirQualityData();
+  </script>
+</body>
+</html>
